@@ -1,0 +1,10 @@
+---
+title: "data_script"
+editor: visual
+---
+```{r}
+data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",")
+head(data)
+print(colnames(data))
+```
+
