@@ -1,5 +1,20 @@
 # Data
 
-## Description
+## Technical Description
+For the proposed project, we plan to utilize a dataset called _Crash Reporting - Drivers Data_ from DATA.GOV, available at https://catalog.data.gov/dataset/crash-reporting-drivers-data. This dataset is published and maintained by data.montgomerycountymd.gov and is updated weekly for analysis.
+
+The data collection process involves several local law enforcement agencies within Montgomery County, including the Montgomery County Police, Gaithersburg Police, Rockville Police, and the Maryland-National Capital Park Police. These agencies contribute to the Automated Crash Reporting System (ACRS) of the Maryland State Police, which compiles the data. 
+
+The dataset comprises 169,760 rows and 43 columns. For our project, we have chosen the CSV format of the dataset. Meanwhile, other formats of the data such as RDF, JSON, XML, and a landing page format are also available on the source website. One significant aspect about the data is that it includes comprehensive details of vehicle conditions and road conditions in the reported traffic collisions. However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables.
+
+To import the dataset into an R environment for analysis, we will use the following R script:
+```{r}
+data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",")
+head(data)
+```
+This script reads the CSV file into a data frame, making it ready for subsequent data processing and analysis. The use of head(data) will initially display the first few rows of the dataset, providing a quick overview of the data structure and content.
+
+## Research plan
 
 ## Missing value analysis
+

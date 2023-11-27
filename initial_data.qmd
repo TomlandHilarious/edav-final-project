@@ -5,6 +5,10 @@ editor: visual
 ```{r}
 data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",")
 head(data)
+```
+
+
+```{r}
 print(colnames(data))
 ```
 
