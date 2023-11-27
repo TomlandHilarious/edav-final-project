@@ -10,7 +10,6 @@ The questions we aim to investigate are as follow:
 3. Collision Causes: What are the most common causes of collisions reported in the dataset? Understanding the primary causes (e.g., speeding, distracted driving, mechanical failures) can inform preventive measures and educational programs.
 
 4. Impact of Weather and Road Conditions: How do different weather conditions or road environments affect the frequency and severity of accidents? This can help in planning for adverse weather conditions and improving road maintenance.
-
 5. Vehicle Types Involved: Are certain types of vehicles (e.g., motorcycles, trucks) more frequently involved in accidents? This can guide regulations and safety measures for different vehicle categories.
 
 
