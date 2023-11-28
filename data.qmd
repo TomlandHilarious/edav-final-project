@@ -44,3 +44,33 @@ A structured table of the resarch plan is shown as below:
 | 5   | Vehicle Types Involved                | Vehicle Body Type, Vehicle Year, Vehicle Make                                      | Vehicle Damage Extent                  |
 
 ## Missing value analysis
+```{r}
+library(ggplot2)
+library(dplyr)
+library(redav)
+
+missing_value <- colSums(is.na(data))/dim(data)[1]*100 |> 
+  sort(decreasing = TRUE)
+
+missing_data_df <- data.frame(
+  Column = names(missing_value),
+  NAs = missing_value
+)
+
+ggplot(missing_data_df, aes(x = reorder(Column, NAs), y = NAs)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(x = "Variables", y = "Percentage of Missing Values(%)", title = "Persentage of Missing Values of Variables") +
+  coord_flip()
+
+column_pruned = c("Crash.Date.Time", "Route.Type", "Cross.Street.Type",
+                  "Weather", "Surface.Condition", "Light", 
+                  "Traffic.Control", "Driver.Substance.Abuse", 
+                  "Injury.Severity", "Driver.Distracted.By", 
+                  "Vehicle.Damage.Extent", "Vehicle.Body.Type", 
+                  "Vehicle.Movement", "Speed.Limit", "Vehicle.Year", 
+                  "Vehicle.Make", "Equipment.Problems")
+data_pruned = data[column_pruned]
+plot_missing(data_pruned, percent = TRUE)
+```
+

@@ -2,13 +2,32 @@
 title: "data_script"
 editor: visual
 ---
+
 ```{r}
-data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",")
+data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",", na.strings=c("","N/A"))
 head(data)
 ```
 
-
 ```{r}
 print(colnames(data))
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+missing_value <- colSums(is.na(data)) |> 
+  sort(decreasing = TRUE)
+
+missing_data_df <- data.frame(
+  Column = names(missing_value),
+  NAs = missing_value
+)
+
+ggplot(missing_data_df, aes(x = reorder(Column, NAs), y = NAs)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(x = "Variables", y = "Number of Missing Values", title = "Missing Values of Variables") +
+  coord_flip()
 ```
 
