@@ -8,12 +8,12 @@ The data collection process involves several local law enforcement agencies with
 
 The dataset comprises 169,760 rows and 43 columns. For our project, we have chosen the CSV format of the dataset. Meanwhile, other formats of the data such as RDF, JSON, XML, and a landing page format are also available on the source website. One significant aspect about the data is that it includes comprehensive details of vehicle conditions and road conditions in the reported traffic collisions.
 
-However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables. Another potential issue of the data after examination was the mismatch between the *ACRS Report Type* and the *Injury Severity* columns. For example, an incident was classified as *Injury Crash* in the *ACRS Report Type* but in the *Injury Severity* it is marked as *NO APPARENT INJURY*. Such mismatches lead us to the decision of using *Injury Severity* as it provides more specific and accurate information about the car crash.
+However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables. Another potential issue of the data after examination was the mismatch between the *ACRS Report Type* and the *Injury Severity* columns. For example, an incident was classified as *Injury Crash* in the *ACRS Report Type* but in the *Injury Severity* it is marked as *NO APPARENT INJURY*. Such mismatches lead us to the decision of using *Injury Severity* as it provides more specific and accurate information about the car crash. Also, in *Vehicle Year* column, there are abnormal data value such as *0*, *9999*, *2024*. These are likely to be incorrect values due to manual input or missing data, so we choose to treat those abnormal data as missing value.
 
 To import the dataset into an R environment for analysis, we will use the following R script:
 
 ```{r}
-data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",")
+data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",",na.strings=c("","N/A"))
 head(data)
 ```
 
@@ -44,12 +44,29 @@ A structured table of the resarch plan is shown as below:
 | 5   | Vehicle Types Involved                | Vehicle Body Type, Vehicle Year, Vehicle Make                                      | Vehicle Damage Extent                  |
 
 ## Missing value analysis
+We will initially refine our dataset to include only the variables of interest. To analyze and interpret missing values, we will employ bar charts to visualize the percentage of missing data and use the 'plot missing' function to identify any discernible patterns in the missing values.
+
 ```{r}
 library(ggplot2)
 library(dplyr)
 library(redav)
 
-missing_value <- colSums(is.na(data))/dim(data)[1]*100 |> 
+# refine dataset
+columns = c("Crash.Date.Time", "Route.Type", "Cross.Street.Type",
+                  "Weather", "Surface.Condition", "Light", 
+                  "Traffic.Control", "Driver.Substance.Abuse", 
+                  "Injury.Severity", "Driver.Distracted.By", 
+                  "Vehicle.Damage.Extent", "Vehicle.Body.Type", 
+                  "Vehicle.Movement", "Speed.Limit", "Vehicle.Year", 
+                  "Vehicle.Make", "Equipment.Problems")
+data_refined = data[columns]
+
+# make abnormal data in 'Vehicle.Year' to NAs
+data_refined <- data_refined %>%
+  mutate(Vehicle.Year = if_else(Vehicle.Year < 1900 | Vehicle.Year > 2023, NA_real_, Vehicle.Year))
+
+# analysis missing value
+missing_value <- colSums(is.na(data_refined))/dim(data_refined)[1]*100 |> 
   sort(decreasing = TRUE)
 
 missing_data_df <- data.frame(
@@ -57,20 +74,31 @@ missing_data_df <- data.frame(
   NAs = missing_value
 )
 
+# plot percentage of missing value
 ggplot(missing_data_df, aes(x = reorder(Column, NAs), y = NAs)) +
   geom_bar(stat = "identity") +
   theme_minimal() +
   labs(x = "Variables", y = "Percentage of Missing Values(%)", title = "Persentage of Missing Values of Variables") +
   coord_flip()
-
-column_pruned = c("Crash.Date.Time", "Route.Type", "Cross.Street.Type",
-                  "Weather", "Surface.Condition", "Light", 
-                  "Traffic.Control", "Driver.Substance.Abuse", 
-                  "Injury.Severity", "Driver.Distracted.By", 
-                  "Vehicle.Damage.Extent", "Vehicle.Body.Type", 
-                  "Vehicle.Movement", "Speed.Limit", "Vehicle.Year", 
-                  "Vehicle.Make", "Equipment.Problems")
-data_pruned = data[column_pruned]
-plot_missing(data_pruned, percent = TRUE)
 ```
+From the bar chart, it is evident that all the variables of interest have less than 20% missing values. Notably, *Equipment.Problems* and *Driver.Substance.Abuse* exhibit relatively higher percentages of missing values, each exceeding 15%. The majority of the variables demonstrate relatively complete data values.
 
+To enhance our visual analysis of the missing value patterns, we have selected a random subset of 1,000 rows and used numerical value to map the name of variables. This sample will help us more clearly discern any underlying trends in the missing value.
+```{r}
+column_mapping <- setNames(seq_along(columns), columns)
+names(data_refined) <- column_mapping[names(data_refined)]
+sampled_data <- sample_n(data_refined, 500)
+print(column_mapping)
+plot_missing(sampled_data, percent = TRUE)
+```
+From the graph, we can make following observation:
+Around 50% of the sample data has complete data value for all selected variable;
+Around 5% of the sample data only missed *Equipment.Problems*; 
+Around 5% of the sample data only missed *Driver.Substance.Abuse*; 
+Around 3% of the sample data only missed *Traffic.Control*; 
+Around 3% of the sample data only missed *Weather*;
+Around 3% of the sample data missed both *Equipment.Problems* and *Driver.Substance.Abuse*;
+Around 2% of the sample data missed *Route.Type*, *Cross.Street.Type* and *Surface.Condition*;
+There are no other clear patterns of missing data.
+
+This pattern is reasonable since *Equipment.Problems*, *Driver.Substance.Abuse* and *Traffic.Control* are variables that has the most missing value. *Route.Type*, *Cross.Street.Type* and *Surface.Condition* are likely to missed together since those are all road condition information.

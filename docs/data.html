@@ -207,12 +207,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For the proposed project, we plan to utilize a dataset called <em>Crash Reporting - Drivers Data</em> from DATA.GOV, available at <a href="https://catalog.data.gov/dataset/crash-reporting-drivers-data" class="uri">https://catalog.data.gov/dataset/crash-reporting-drivers-data</a>. This dataset is published and maintained by data.montgomerycountymd.gov and is updated weekly for analysis.</p>
 <p>The data collection process involves several local law enforcement agencies within Montgomery County, including the Montgomery County Police, Gaithersburg Police, Rockville Police, and the Maryland-National Capital Park Police. These agencies contribute to the Automated Crash Reporting System (ACRS) of the Maryland State Police, which compiles the data.</p>
 <p>The dataset comprises 169,760 rows and 43 columns. For our project, we have chosen the CSV format of the dataset. Meanwhile, other formats of the data such as RDF, JSON, XML, and a landing page format are also available on the source website. One significant aspect about the data is that it includes comprehensive details of vehicle conditions and road conditions in the reported traffic collisions.</p>
-<p>However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables. Another potential issue of the data after examination was the mismatch between the <em>ACRS Report Type</em> and the <em>Injury Severity</em> columns. For example, an incident was classified as <em>Injury Crash</em> in the <em>ACRS Report Type</em> but in the <em>Injury Severity</em> it is marked as <em>NO APPARENT INJURY</em>. Such mismatches lead us to the decision of using <em>Injury Severity</em> as it provides more specific and accurate information about the car crash.</p>
+<p>However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables. Another potential issue of the data after examination was the mismatch between the <em>ACRS Report Type</em> and the <em>Injury Severity</em> columns. For example, an incident was classified as <em>Injury Crash</em> in the <em>ACRS Report Type</em> but in the <em>Injury Severity</em> it is marked as <em>NO APPARENT INJURY</em>. Such mismatches lead us to the decision of using <em>Injury Severity</em> as it provides more specific and accurate information about the car crash. Also, in <em>Vehicle Year</em> column, there are abnormal data value such as <em>0</em>, <em>9999</em>, <em>2024</em>. These are likely to be incorrect values due to manual input or missing data, so we choose to treat those abnormal data as missing value.</p>
 <p>To import the dataset into an R environment for analysis, we will use the following R script:</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/Crash_Reporting_-_Drivers_Data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/Crash_Reporting_-_Drivers_Data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>,<span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">""</span>,<span class="st">"N/A"</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
@@ -224,40 +224,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5    EJ78520081         230033429 Gaithersburg Police Depar
 6   MCP3163005L         230035071  Montgomery County Police
        ACRS.Report.Type        Crash.Date.Time       Route.Type
-1 Property Damage Crash 05/31/2019 03:00:00 PM                 
-2 Property Damage Crash 05/24/2019 05:00:00 PM                 
+1 Property Damage Crash 05/31/2019 03:00:00 PM             &lt;NA&gt;
+2 Property Damage Crash 05/24/2019 05:00:00 PM             &lt;NA&gt;
 3 Property Damage Crash 07/17/2023 10:45:00 AM           County
 4 Property Damage Crash 07/20/2023 11:40:00 PM Maryland (State)
 5 Property Damage Crash 07/13/2023 05:40:00 PM     Municipality
 6 Property Damage Crash 07/23/2023 03:55:00 PM Maryland (State)
           Road.Name Cross.Street.Type      Cross.Street.Name
-1                                                           
-2                                                           
+1              &lt;NA&gt;              &lt;NA&gt;                   &lt;NA&gt;
+2              &lt;NA&gt;              &lt;NA&gt;                   &lt;NA&gt;
 3      SELFRIDGE RD            County            RANDOLPH RD
 4 MUNCASTER MILL RD            County         SHADY GROVE RD
 5        PERRY PKWY           Unknown ENT TO SHOPPING CENTER
 6    ROCKVILLE PIKE            County           GROSVENOR LA
             Off.Road.Description Municipality Related.Non.Motorist
-1 PARKING LOT OF 3215 SPARTAN RD                                  
-2                    PARKING LOT                                  
-3                                         N/A                     
-4                                         N/A                     
-5                                         N/A                     
-6                                         N/A                     
+1 PARKING LOT OF 3215 SPARTAN RD         &lt;NA&gt;                 &lt;NA&gt;
+2                    PARKING LOT         &lt;NA&gt;                 &lt;NA&gt;
+3                           &lt;NA&gt;         &lt;NA&gt;                 &lt;NA&gt;
+4                           &lt;NA&gt;         &lt;NA&gt;                 &lt;NA&gt;
+5                           &lt;NA&gt;         &lt;NA&gt;                 &lt;NA&gt;
+6                           &lt;NA&gt;         &lt;NA&gt;                 &lt;NA&gt;
      Collision.Type Weather Surface.Condition          Light Traffic.Control
-1             OTHER   CLEAR                         DAYLIGHT             N/A
-2               N/A   CLEAR                         DAYLIGHT             N/A
+1             OTHER   CLEAR              &lt;NA&gt;       DAYLIGHT            &lt;NA&gt;
+2              &lt;NA&gt;   CLEAR              &lt;NA&gt;       DAYLIGHT            &lt;NA&gt;
 3             OTHER   CLEAR               DRY DARK LIGHTS ON  TRAFFIC SIGNAL
-4             OTHER     N/A               DRY DARK LIGHTS ON  TRAFFIC SIGNAL
-5 SAME DIR REAR END     N/A               DRY       DAYLIGHT     NO CONTROLS
+4             OTHER    &lt;NA&gt;               DRY DARK LIGHTS ON  TRAFFIC SIGNAL
+5 SAME DIR REAR END    &lt;NA&gt;               DRY       DAYLIGHT     NO CONTROLS
 6 SAME DIR REAR END   CLEAR               DRY       DAYLIGHT  TRAFFIC SIGNAL
   Driver.Substance.Abuse Non.Motorist.Substance.Abuse
-1                UNKNOWN                             
-2                    N/A                             
-3                UNKNOWN                             
-4                    N/A                             
-5                    N/A                             
-6                    N/A                             
+1                UNKNOWN                         &lt;NA&gt;
+2                   &lt;NA&gt;                         &lt;NA&gt;
+3                UNKNOWN                         &lt;NA&gt;
+4                   &lt;NA&gt;                         &lt;NA&gt;
+5                   &lt;NA&gt;                         &lt;NA&gt;
+6                   &lt;NA&gt;                         &lt;NA&gt;
                              Person.ID Driver.At.Fault    Injury.Severity
 1 DE2A24CD-7919-4F8D-BABF-5B75CE12D21E             Yes NO APPARENT INJURY
 2 6208FA7B-5DC4-4B54-AD60-0C06DFE2AE81             Yes NO APPARENT INJURY
@@ -266,12 +266,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 3C7F6951-1701-44DC-9824-88DF4E32352E             Yes NO APPARENT INJURY
 6 A06FADE9-E491-4584-BF35-6206D3D4CE09              No NO APPARENT INJURY
   Circumstance           Driver.Distracted.By Drivers.License.State
-1          N/A                        UNKNOWN                      
-2          N/A                 NOT DISTRACTED                    XX
-3          N/A INATTENTIVE OR LOST IN THOUGHT                    MD
-4          N/A                 NOT DISTRACTED                    MD
-5          N/A         LOOKED BUT DID NOT SEE                    MD
-6          N/A                 NOT DISTRACTED                    MD
+1         &lt;NA&gt;                        UNKNOWN                  &lt;NA&gt;
+2         &lt;NA&gt;                 NOT DISTRACTED                    XX
+3         &lt;NA&gt; INATTENTIVE OR LOST IN THOUGHT                    MD
+4         &lt;NA&gt;                 NOT DISTRACTED                    MD
+5         &lt;NA&gt;         LOOKED BUT DID NOT SEE                    MD
+6         &lt;NA&gt;                 NOT DISTRACTED                    MD
                             Vehicle.ID Vehicle.Damage.Extent
 1 165AD539-A8C8-4004-AF73-B7DCAAA8B3CC           SUPERFICIAL
 2 10239493-D667-42F9-A3D2-820FE184CB6C            FUNCTIONAL
@@ -302,11 +302,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6                  South             South          35                 No
   Parked.Vehicle Vehicle.Year Vehicle.Make Vehicle.Model Equipment.Problems
 1             No         2004        HONDA            TK            UNKNOWN
-2             No            0          UNK           UNK                N/A
+2             No            0          UNK           UNK               &lt;NA&gt;
 3             No         2003         FORD            TK          NO MISUSE
 4             No         2023         TOYT            CP          NO MISUSE
-5             No         2001     KENWORTH         TRUCK                N/A
-6             No         2014        HONDA         CIVIC                N/A
+5             No         2001     KENWORTH         TRUCK               &lt;NA&gt;
+6             No         2014        HONDA         CIVIC               &lt;NA&gt;
   Latitude Longitude                    Location
 1 39.15004 -77.06309 (39.15004368, -77.06308884)
 2 39.19905 -77.25074 (39.19904667, -77.25074333)
@@ -380,6 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="missing-value-analysis" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</h2>
+<p>We will initially refine our dataset to include only the variables of interest. To analyze and interpret missing values, we will employ bar charts to visualize the percentage of missing data and use the ‘plot missing’ function to identify any discernible patterns in the missing values.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -404,47 +405,87 @@ Attaching package: 'dplyr'</code></pre>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>missing_value <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data))<span class="sc">/</span><span class="fu">dim</span>(data)[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span> <span class="sc">|&gt;</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>missing_data_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Column =</span> <span class="fu">names</span>(missing_value),</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">NAs =</span> missing_value</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(missing_data_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Column, NAs), <span class="at">y =</span> NAs)) <span class="sc">+</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variables"</span>, <span class="at">y =</span> <span class="st">"Percentage of Missing Values(%)"</span>, <span class="at">title =</span> <span class="st">"Persentage of Missing Values of Variables"</span>) <span class="sc">+</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># refine dataset</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>columns <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Crash.Date.Time"</span>, <span class="st">"Route.Type"</span>, <span class="st">"Cross.Street.Type"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Weather"</span>, <span class="st">"Surface.Condition"</span>, <span class="st">"Light"</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Traffic.Control"</span>, <span class="st">"Driver.Substance.Abuse"</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Injury.Severity"</span>, <span class="st">"Driver.Distracted.By"</span>, </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Vehicle.Damage.Extent"</span>, <span class="st">"Vehicle.Body.Type"</span>, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Vehicle.Movement"</span>, <span class="st">"Speed.Limit"</span>, <span class="st">"Vehicle.Year"</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Vehicle.Make"</span>, <span class="st">"Equipment.Problems"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>data_refined <span class="ot">=</span> data[columns]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># make abnormal data in 'Vehicle.Year' to NAs</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>data_refined <span class="ot">&lt;-</span> data_refined <span class="sc">%&gt;%</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Vehicle.Year =</span> <span class="fu">if_else</span>(Vehicle.Year <span class="sc">&lt;</span> <span class="dv">1900</span> <span class="sc">|</span> Vehicle.Year <span class="sc">&gt;</span> <span class="dv">2023</span>, <span class="cn">NA_real_</span>, Vehicle.Year))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># analysis missing value</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>missing_value <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data_refined))<span class="sc">/</span><span class="fu">dim</span>(data_refined)[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span> <span class="sc">|&gt;</span> </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>missing_data_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">Column =</span> <span class="fu">names</span>(missing_value),</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">NAs =</span> missing_value</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co"># plot percentage of missing value</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(missing_data_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Column, NAs), <span class="at">y =</span> NAs)) <span class="sc">+</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variables"</span>, <span class="at">y =</span> <span class="st">"Percentage of Missing Values(%)"</span>, <span class="at">title =</span> <span class="st">"Persentage of Missing Values of Variables"</span>) <span class="sc">+</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="data_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<p>From the bar chart, it is evident that all the variables of interest have less than 20% missing values. Notably, <em>Equipment.Problems</em> and <em>Driver.Substance.Abuse</em> exhibit relatively higher percentages of missing values, each exceeding 15%. The majority of the variables demonstrate relatively complete data values.</p>
+<p>To enhance our visual analysis of the missing value patterns, we have selected a random subset of 1,000 rows and used numerical value to map the name of variables. This sample will help us more clearly discern any underlying trends in the missing value.</p>
+<div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>column_pruned <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Crash.Date.Time"</span>, <span class="st">"Route.Type"</span>, <span class="st">"Cross.Street.Type"</span>,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Weather"</span>, <span class="st">"Surface.Condition"</span>, <span class="st">"Light"</span>, </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Traffic.Control"</span>, <span class="st">"Driver.Substance.Abuse"</span>, </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Injury.Severity"</span>, <span class="st">"Driver.Distracted.By"</span>, </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Vehicle.Damage.Extent"</span>, <span class="st">"Vehicle.Body.Type"</span>, </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Vehicle.Movement"</span>, <span class="st">"Speed.Limit"</span>, <span class="st">"Vehicle.Year"</span>, </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Vehicle.Make"</span>, <span class="st">"Equipment.Problems"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>data_pruned <span class="ot">=</span> data[column_pruned]</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(data_pruned, <span class="at">percent =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>column_mapping <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">seq_along</span>(columns), columns)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data_refined) <span class="ot">&lt;-</span> column_mapping[<span class="fu">names</span>(data_refined)]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sampled_data <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(data_refined, <span class="dv">500</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>column_mapping_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">OriginalName =</span> <span class="fu">names</span>(column_mapping),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">NumericIdentifier =</span> column_mapping,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>  <span class="co"># to keep the column names as strings</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(column_mapping)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Crash.Date.Time             Route.Type      Cross.Street.Type 
+                     1                      2                      3 
+               Weather      Surface.Condition                  Light 
+                     4                      5                      6 
+       Traffic.Control Driver.Substance.Abuse        Injury.Severity 
+                     7                      8                      9 
+  Driver.Distracted.By  Vehicle.Damage.Extent      Vehicle.Body.Type 
+                    10                     11                     12 
+      Vehicle.Movement            Speed.Limit           Vehicle.Year 
+                    13                     14                     15 
+          Vehicle.Make     Equipment.Problems 
+                    16                     17 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">2</span>, <span class="at">repr.plot.height =</span> <span class="dv">5</span>) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(sampled_data, <span class="at">percent =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for y is already present.
-Adding another scale for y, which will replace the existing scale.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Scale for y is already present.
 Adding another scale for y, which will replace the existing scale.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+<p><img src="data_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>From the graph, we can make following observation: Around 50% of the sample data has complete data value for all selected variable; Around 5% of the sample data only missed <em>Equipment.Problems</em>; Around 5% of the sample data only missed <em>Driver.Substance.Abuse</em>; Around 3% of the sample data only missed <em>Traffic.Control</em>; Around 3% of the sample data only missed <em>Weather</em>; Around 3% of the sample data missed both <em>Equipment.Problems</em> and <em>Driver.Substance.Abuse</em>; Around 2% of the sample data missed <em>Route.Type</em>, <em>Cross.Street.Type</em> and <em>Surface.Condition</em>; There are no other clear patterns of missing data.</p>
+<p>This pattern is reasonable since <em>Equipment.Problems</em>, <em>Driver.Substance.Abuse</em> and <em>Traffic.Control</em> are variables that has the most missing value. <em>Route.Type</em>, <em>Cross.Street.Type</em> and <em>Surface.Condition</em> are likely to missed together since those are all road condition information.</p>
 
 
 </section>
