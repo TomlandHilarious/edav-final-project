@@ -204,9 +204,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="technical-description" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="technical-description"><span class="header-section-number">2.1</span> Technical Description</h2>
-<p>For the proposed project, we plan to utilize a dataset called <em>Crash Reporting - Drivers Data</em> from DATA.GOV, available at https://catalog.data.gov/dataset/crash-reporting-drivers-data. This dataset is published and maintained by data.montgomerycountymd.gov and is updated weekly for analysis.</p>
+<p>For the proposed project, we plan to utilize a dataset called <em>Crash Reporting - Drivers Data</em> from DATA.GOV, available at <a href="https://catalog.data.gov/dataset/crash-reporting-drivers-data" class="uri">https://catalog.data.gov/dataset/crash-reporting-drivers-data</a>. This dataset is published and maintained by data.montgomerycountymd.gov and is updated weekly for analysis.</p>
 <p>The data collection process involves several local law enforcement agencies within Montgomery County, including the Montgomery County Police, Gaithersburg Police, Rockville Police, and the Maryland-National Capital Park Police. These agencies contribute to the Automated Crash Reporting System (ACRS) of the Maryland State Police, which compiles the data.</p>
-<p>The dataset comprises 169,760 rows and 43 columns. For our project, we have chosen the CSV format of the dataset. Meanwhile, other formats of the data such as RDF, JSON, XML, and a landing page format are also available on the source website. One significant aspect about the data is that it includes comprehensive details of vehicle conditions and road conditions in the reported traffic collisions. However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables.</p>
+<p>The dataset comprises 169,760 rows and 43 columns. For our project, we have chosen the CSV format of the dataset. Meanwhile, other formats of the data such as RDF, JSON, XML, and a landing page format are also available on the source website. One significant aspect about the data is that it includes comprehensive details of vehicle conditions and road conditions in the reported traffic collisions.</p>
+<p>However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables. Another potential issue of the data after examination was the mismatch between the <em>ACRS Report Type</em> and the <em>Injury Severity</em> columns. For example, an incident was classified as <em>Injury Crash</em> in the <em>ACRS Report Type</em> but in the <em>Injury Severity</em> it is marked as <em>NO APPARENT INJURY</em>. Such mismatches lead us to the decision of using <em>Injury Severity</em> as it provides more specific and accurate information about the car crash.</p>
 <p>To import the dataset into an R environment for analysis, we will use the following R script:</p>
 <div class="cell">
 <details>
@@ -319,6 +320,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="research-plan" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="research-plan"><span class="header-section-number">2.2</span> Research plan</h2>
+<p>As mentioned in the Introduction Chapter, we plan to investigate five questions in our study</p>
+<ol type="1">
+<li><p><strong>Accident Hotspots</strong>: To identify the locations with the highest frequency of traffic collisions, we will utilize ‘Route Type’ and ‘Cross-Street Type’ variables to pinpoint specific areas or route types where accidents occur more frequently.</p></li>
+<li><p><strong>Time Patterns</strong>: The ‘Crash Date/Time’ variable is key for understanding the temporal patterns of accidents. This variable contains detailed information of the time, date, and year when the accident occurred.</p></li>
+<li><p><strong>Collision Causes</strong>: We plan to use variables such as ‘Driver Substance Abuse’, ‘Driver Distracted By’, ‘Vehicle Movement’, and ‘Equipment Problems’ to understand the common causes of collisions and the severity of the collisions.</p></li>
+<li><p><strong>Impact of Weather and Road Conditions</strong>: The influence of external conditions on traffic accidents can be assessed using variables like ‘Weather’, ‘Surface Condition’, ‘Light’, ‘Traffic Control’, and ‘Speed Limit’. We could associate these factors with the injury severity and vehicle damage extent.</p></li>
+<li><p><strong>Vehicle Types Involved</strong>: To determine if certain types of vehicles are more frequently involved in accidents, the ‘Vehicle Body Type’, ‘Vehicle Year’, and ‘Vehicle Make’ variables. These variables could also assist us in understanding the vehicle damage extent.</p></li>
+</ol>
+<p>A structured table of the resarch plan is shown as below:</p>
+<table class="table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 26%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>NO.</th>
+<th>Research Question</th>
+<th>Independent Variables</th>
+<th>Dependent Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Accident Hotspots</td>
+<td>Route Type, Cross-Street Type</td>
+<td>N/A</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Time Patterns</td>
+<td>Crash Date/Time</td>
+<td>N/A</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Collision Causes</td>
+<td>Driver Substance Abuse, Driver Distracted By, Vehicle Movement, Equipment Problems</td>
+<td>Injury Severity, Vehicle Damage Extent</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Impact of Weather and Road Conditions</td>
+<td>Weather, Surface Condition, Light, Traffic Control, Speed Limit</td>
+<td>Injury Severity, Vehicle Damage Extent</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Vehicle Types Involved</td>
+<td>Vehicle Body Type, Vehicle Year, Vehicle Make</td>
+<td>Vehicle Damage Extent</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="missing-value-analysis" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</h2>

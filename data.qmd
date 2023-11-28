@@ -1,20 +1,46 @@
 # Data
 
 ## Technical Description
-For the proposed project, we plan to utilize a dataset called _Crash Reporting - Drivers Data_ from DATA.GOV, available at https://catalog.data.gov/dataset/crash-reporting-drivers-data. This dataset is published and maintained by data.montgomerycountymd.gov and is updated weekly for analysis.
+
+For the proposed project, we plan to utilize a dataset called *Crash Reporting - Drivers Data* from DATA.GOV, available at <https://catalog.data.gov/dataset/crash-reporting-drivers-data>. This dataset is published and maintained by data.montgomerycountymd.gov and is updated weekly for analysis.
 
 The data collection process involves several local law enforcement agencies within Montgomery County, including the Montgomery County Police, Gaithersburg Police, Rockville Police, and the Maryland-National Capital Park Police. These agencies contribute to the Automated Crash Reporting System (ACRS) of the Maryland State Police, which compiles the data. 
 
-The dataset comprises 169,760 rows and 43 columns. For our project, we have chosen the CSV format of the dataset. Meanwhile, other formats of the data such as RDF, JSON, XML, and a landing page format are also available on the source website. One significant aspect about the data is that it includes comprehensive details of vehicle conditions and road conditions in the reported traffic collisions. However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables.
+The dataset comprises 169,760 rows and 43 columns. For our project, we have chosen the CSV format of the dataset. Meanwhile, other formats of the data such as RDF, JSON, XML, and a landing page format are also available on the source website. One significant aspect about the data is that it includes comprehensive details of vehicle conditions and road conditions in the reported traffic collisions.
+
+However, a known issue with the dataset is that it contains both verified and unverified collision data. Such discrepancies can lead to biases or inaccuracies in analyzing and interpreting different variables. Another potential issue of the data after examination was the mismatch between the *ACRS Report Type* and the *Injury Severity* columns. For example, an incident was classified as *Injury Crash* in the *ACRS Report Type* but in the *Injury Severity* it is marked as *NO APPARENT INJURY*. Such mismatches lead us to the decision of using *Injury Severity* as it provides more specific and accurate information about the car crash.
 
 To import the dataset into an R environment for analysis, we will use the following R script:
+
 ```{r}
 data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",")
 head(data)
 ```
+
 This script reads the CSV file into a data frame, making it ready for subsequent data processing and analysis. The use of head(data) will initially display the first few rows of the dataset, providing a quick overview of the data structure and content.
 
 ## Research plan
 
-## Missing value analysis
+As mentioned in the Introduction Chapter, we plan to investigate five questions in our study
 
+1.  **Accident Hotspots**: To identify the locations with the highest frequency of traffic collisions, we will utilize 'Route Type' and 'Cross-Street Type' variables to pinpoint specific areas or route types where accidents occur more frequently.
+
+2.  **Time Patterns**: The 'Crash Date/Time' variable is key for understanding the temporal patterns of accidents. This variable contains detailed information of the time, date, and year when the accident occurred.
+
+3.  **Collision Causes**: We plan to use variables such as 'Driver Substance Abuse', 'Driver Distracted By', 'Vehicle Movement', and 'Equipment Problems' to understand the common causes of collisions and the severity of the collisions.
+
+4.  **Impact of Weather and Road Conditions**: The influence of external conditions on traffic accidents can be assessed using variables like 'Weather', 'Surface Condition', 'Light', 'Traffic Control', and 'Speed Limit'. We could associate these factors with the injury severity and vehicle damage extent.
+
+5.  **Vehicle Types Involved**: To determine if certain types of vehicles are more frequently involved in accidents, the 'Vehicle Body Type', 'Vehicle Year', and 'Vehicle Make' variables. These variables could also assist us in understanding the vehicle damage extent.
+
+A structured table of the resarch plan is shown as below:
+
+| NO. | Research Question                     | Independent Variables                                                              | Dependent Variable                     |
+|------------------|------------------|-------------------|------------------|
+| 1   | Accident Hotspots                     | Route Type, Cross-Street Type                                                      | N/A                                    |
+| 2   | Time Patterns                         | Crash Date/Time                                                                    | N/A                                    |
+| 3   | Collision Causes                      | Driver Substance Abuse, Driver Distracted By, Vehicle Movement, Equipment Problems | Injury Severity, Vehicle Damage Extent |
+| 4   | Impact of Weather and Road Conditions | Weather, Surface Condition, Light, Traffic Control, Speed Limit                    | Injury Severity, Vehicle Damage Extent |
+| 5   | Vehicle Types Involved                | Vehicle Body Type, Vehicle Year, Vehicle Make                                      | Vehicle Damage Extent                  |
+
+## Missing value analysis
