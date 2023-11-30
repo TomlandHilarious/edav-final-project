@@ -11,7 +11,7 @@ book:
     - Ruoxuan Li (rl3403)
     - Jiaqi Li (jl6596)
   repo-url: https://github.com/TomlandHilarious/edav-final-project
-  date: 11/25/2023
+  date: today
   page-footer:
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
