@@ -19,7 +19,7 @@ To import the dataset into an R environment for analysis, we will use the follow
 
 ```{r}
 data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",",na.strings=c("","N/A"))
-head(data)[1,]
+t(head(data,1))
 ```
 
 This script reads the CSV file into a data frame. We use head(data)[1,] to display the first row of the dataset, providing a quick overview of the data structure.

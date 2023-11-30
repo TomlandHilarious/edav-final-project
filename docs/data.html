@@ -213,35 +213,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/Crash_Reporting_-_Drivers_Data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>,<span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">""</span>,<span class="st">"N/A"</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)[<span class="dv">1</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">head</span>(data,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Report.Number Local.Case.Number              Agency.Name
-1   MCP3040003N         190026050 Montgomery County Police
-       ACRS.Report.Type        Crash.Date.Time Route.Type Road.Name
-1 Property Damage Crash 05/31/2019 03:00:00 PM       &lt;NA&gt;      &lt;NA&gt;
-  Cross.Street.Type Cross.Street.Name           Off.Road.Description
-1              &lt;NA&gt;              &lt;NA&gt; PARKING LOT OF 3215 SPARTAN RD
-  Municipality Related.Non.Motorist Collision.Type Weather Surface.Condition
-1         &lt;NA&gt;                 &lt;NA&gt;          OTHER   CLEAR              &lt;NA&gt;
-     Light Traffic.Control Driver.Substance.Abuse Non.Motorist.Substance.Abuse
-1 DAYLIGHT            &lt;NA&gt;                UNKNOWN                         &lt;NA&gt;
-                             Person.ID Driver.At.Fault    Injury.Severity
-1 DE2A24CD-7919-4F8D-BABF-5B75CE12D21E             Yes NO APPARENT INJURY
-  Circumstance Driver.Distracted.By Drivers.License.State
-1         &lt;NA&gt;              UNKNOWN                  &lt;NA&gt;
-                            Vehicle.ID Vehicle.Damage.Extent
-1 165AD539-A8C8-4004-AF73-B7DCAAA8B3CC           SUPERFICIAL
-  Vehicle.First.Impact.Location Vehicle.Second.Impact.Location
-1                    ONE OCLOCK                     ONE OCLOCK
-  Vehicle.Body.Type Vehicle.Movement Vehicle.Continuing.Dir Vehicle.Going.Dir
-1     PASSENGER CAR          PARKING                  North             North
-  Speed.Limit Driverless.Vehicle Parked.Vehicle Vehicle.Year Vehicle.Make
-1          15                 No             No         2004        HONDA
-  Vehicle.Model Equipment.Problems Latitude Longitude
-1            TK            UNKNOWN 39.15004 -77.06309
-                     Location
-1 (39.15004368, -77.06308884)</code></pre>
+<pre><code>                               1                                     
+Report.Number                  "MCP3040003N"                         
+Local.Case.Number              "190026050"                           
+Agency.Name                    "Montgomery County Police"            
+ACRS.Report.Type               "Property Damage Crash"               
+Crash.Date.Time                "05/31/2019 03:00:00 PM"              
+Route.Type                     NA                                    
+Road.Name                      NA                                    
+Cross.Street.Type              NA                                    
+Cross.Street.Name              NA                                    
+Off.Road.Description           "PARKING LOT OF 3215 SPARTAN RD"      
+Municipality                   NA                                    
+Related.Non.Motorist           NA                                    
+Collision.Type                 "OTHER"                               
+Weather                        "CLEAR"                               
+Surface.Condition              NA                                    
+Light                          "DAYLIGHT"                            
+Traffic.Control                NA                                    
+Driver.Substance.Abuse         "UNKNOWN"                             
+Non.Motorist.Substance.Abuse   NA                                    
+Person.ID                      "DE2A24CD-7919-4F8D-BABF-5B75CE12D21E"
+Driver.At.Fault                "Yes"                                 
+Injury.Severity                "NO APPARENT INJURY"                  
+Circumstance                   NA                                    
+Driver.Distracted.By           "UNKNOWN"                             
+Drivers.License.State          NA                                    
+Vehicle.ID                     "165AD539-A8C8-4004-AF73-B7DCAAA8B3CC"
+Vehicle.Damage.Extent          "SUPERFICIAL"                         
+Vehicle.First.Impact.Location  "ONE OCLOCK"                          
+Vehicle.Second.Impact.Location "ONE OCLOCK"                          
+Vehicle.Body.Type              "PASSENGER CAR"                       
+Vehicle.Movement               "PARKING"                             
+Vehicle.Continuing.Dir         "North"                               
+Vehicle.Going.Dir              "North"                               
+Speed.Limit                    "15"                                  
+Driverless.Vehicle             "No"                                  
+Parked.Vehicle                 "No"                                  
+Vehicle.Year                   "2004"                                
+Vehicle.Make                   "HONDA"                               
+Vehicle.Model                  "TK"                                  
+Equipment.Problems             "UNKNOWN"                             
+Latitude                       "39.15004"                            
+Longitude                      "-77.06309"                           
+Location                       "(39.15004368, -77.06308884)"         </code></pre>
 </div>
 </div>
 <p>This script reads the CSV file into a data frame. We use head(data)[1,] to display the first row of the dataset, providing a quick overview of the data structure.</p>
