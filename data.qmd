@@ -122,22 +122,14 @@ ggplot(missing_data_df, aes(x = reorder(Column, NAs), y = NAs)) +
 From the bar chart, it is evident that all the variables of interest have less than 20% missing values. Notably, *Equipment.Problems* and *Driver.Substance.Abuse* exhibit relatively higher percentages of missing values, each exceeding 15%. The majority of the variables demonstrate relatively complete data values.
 
 To enhance our visual analysis of the missing value patterns, we have selected a random subset of 500 rows and used numerical value to map the name of variables. This sample will help us more clearly discern any underlying trends in the missing value.
-```{r}
+```{r, fig.width=10, fig.height=8}
 column_mapping <- setNames(seq_along(columns), columns)
 names(data_refined) <- column_mapping[names(data_refined)]
 sampled_data <- sample_n(data_refined, 500)
 print(column_mapping)
-p <- plot_missing(sampled_data)
-ggsave("missing_data_plot.png", plot = p, height=10, width=8)
+plot_missing(sampled_data)
 ```
 
-
-```{r}
-library(png)
-library(grid)
-my_image <- readPNG("missing_data_plot.png")
-grid.raster(my_image)
-```
 From the graph, we can make following observation:
 
 Around 50% of the sample data has complete data value for all selected variable;
