@@ -176,10 +176,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#q1" id="toc-q1" class="nav-link active" data-scroll-target="#q1"><span class="header-section-number">3.1</span> Q1</a></li>
-  <li><a href="#q2" id="toc-q2" class="nav-link" data-scroll-target="#q2"><span class="header-section-number">3.2</span> Q2</a></li>
-  <li><a href="#q3" id="toc-q3" class="nav-link" data-scroll-target="#q3"><span class="header-section-number">3.3</span> Q3</a></li>
+  <li><a href="#accident-hotspots" id="toc-accident-hotspots" class="nav-link active" data-scroll-target="#accident-hotspots"><span class="header-section-number">3.1</span> Accident Hotspots</a></li>
+  <li><a href="#time-patterns" id="toc-time-patterns" class="nav-link" data-scroll-target="#time-patterns"><span class="header-section-number">3.2</span> Time Patterns</a>
+  <ul class="collapse">
+  <li><a href="#yearly-seasonal-patterns" id="toc-yearly-seasonal-patterns" class="nav-link" data-scroll-target="#yearly-seasonal-patterns"><span class="header-section-number">3.2.1</span> Yearly &amp; Seasonal Patterns</a></li>
+  <li><a href="#weekly-time-patterns" id="toc-weekly-time-patterns" class="nav-link" data-scroll-target="#weekly-time-patterns"><span class="header-section-number">3.2.2</span> Weekly &amp; Time Patterns</a></li>
+  </ul></li>
+  <li><a href="#collision-causes" id="toc-collision-causes" class="nav-link" data-scroll-target="#collision-causes"><span class="header-section-number">3.3</span> Collision Causes</a>
+  <ul class="collapse">
+  <li><a href="#driver-substance-abuse" id="toc-driver-substance-abuse" class="nav-link" data-scroll-target="#driver-substance-abuse"><span class="header-section-number">3.3.1</span> Driver Substance Abuse</a></li>
+  <li><a href="#driver-distraction" id="toc-driver-distraction" class="nav-link" data-scroll-target="#driver-distraction"><span class="header-section-number">3.3.2</span> Driver Distraction</a></li>
+  <li><a href="#equipment-problems" id="toc-equipment-problems" class="nav-link" data-scroll-target="#equipment-problems"><span class="header-section-number">3.3.3</span> Equipment Problems</a></li>
+  <li><a href="#vehicle-movement" id="toc-vehicle-movement" class="nav-link" data-scroll-target="#vehicle-movement"><span class="header-section-number">3.3.4</span> Vehicle Movement</a></li>
+  </ul></li>
   <li><a href="#q4" id="toc-q4" class="nav-link" data-scroll-target="#q4"><span class="header-section-number">3.4</span> Q4</a></li>
+  <li><a href="#q5" id="toc-q5" class="nav-link" data-scroll-target="#q5"><span class="header-section-number">3.5</span> Q5</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TomlandHilarious/edav-final-project/edit/main/results.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TomlandHilarious/edav-final-project/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -212,68 +223,121 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/Crash_Reporting_-_Drivers_Data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>,<span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">""</span>,<span class="st">"N/A"</span>))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data_q1 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Route.Type,Cross.Street.Type)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>data_q2 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Crash.Date.Time)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>data_q3 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Driver.Substance.Abuse,Driver.Distracted.By,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                         Vehicle.Movement,Equipment.Problems,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                         Injury.Severity,Vehicle.Damage.Extent)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>data_q4 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Weather,Surface.Condition,Light,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                         Traffic.Control,Speed.Limit,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                         Injury.Severity,Vehicle.Damage.Extent)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>data_q5 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Vehicle.Body.Type,Vehicle.Year,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                         Vehicle.Make,Vehicle.Damage.Extent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<section id="q1" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="q1"><span class="header-section-number">3.1</span> Q1</h2>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change Variables as factors</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_q1<span class="sc">$</span>Route.Type <span class="ot">=</span>  <span class="fu">as.factor</span>(data_q1<span class="sc">$</span>Route.Type) <span class="sc">|&gt;</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>data_q1<span class="sc">$</span>Cross.Street.Type <span class="ot">=</span> <span class="fu">as.factor</span>(data_q1<span class="sc">$</span>Cross.Street.Type) <span class="sc">|&gt;</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(data_q1, aes(y = fct_relevel(fct_rev(fct_infreq(Route.Type)), </span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                                     "NA"))) +</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(fill = "cornflowerblue") +</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Number of Crashes", </span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#        y = "Route Type", </span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#        title = "Number of Crashes by Route Types") +</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_light()</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(data_q1, aes(y = fct_relevel(fct_rev(fct_infreq(Cross.Street.Type)), </span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                                     "NA"))) +</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(fill = "cornflowerblue") +</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Number of Crashes",</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#        y = "Cross Street Type",</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#        title = "Number of Crashes by Cross Street Types") +</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_light()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/Crash_Reporting_-_Drivers_Data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">","</span>,<span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">""</span>,<span class="st">"N/A"</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>data_q1 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Route.Type,Cross.Street.Type)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>data_q2 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Crash.Date.Time)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>data_q3 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Driver.Substance.Abuse,Driver.Distracted.By,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                         Vehicle.Movement,Equipment.Problems,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                         Injury.Severity,Vehicle.Damage.Extent)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>data_q4 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Weather,Surface.Condition,Light,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                         Traffic.Control,Speed.Limit,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                         Injury.Severity,Vehicle.Damage.Extent)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>data_q5 <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(Vehicle.Body.Type,Vehicle.Year,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                         Vehicle.Make,Vehicle.Damage.Extent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_q1<span class="sc">$</span>id <span class="ot">=</span> <span class="fu">rownames</span>(data_q1)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_q1 <span class="ot">=</span> <span class="fu">pivot_longer</span>(data_q1,<span class="at">cols=</span>Route.Type<span class="sc">:</span>Cross.Street.Type)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_q1,<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">fct_relevel</span>(<span class="fu">fct_rev</span>(<span class="fu">fct_infreq</span>(value)), </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"NA"</span>), <span class="at">fill =</span> name)) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Crashes"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Types"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Crashes by Route Types and Cross Street Types"</span>) <span class="sc">+</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Weater~Demage</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_weather_damage <span class="ot">=</span> data_q4 <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Vehicle.Damage.Extent, Weather) <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Vehicle.Damage.Extent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>, <span class="st">"OTHER"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df_weather_damage<span class="sc">$</span>Weather <span class="ot">=</span> <span class="fu">as.factor</span>(df_weather_damage<span class="sc">$</span>Weather)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df_weather_damage<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">=</span> <span class="fu">as.factor</span>(df_weather_damage<span class="sc">$</span>Vehicle.Damage.Extent) <span class="sc">|&gt;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_relevel</span>(<span class="st">"NO DAMAGE"</span>, <span class="st">"SUPERFICIAL"</span>, <span class="st">"FUNCTIONAL"</span>, <span class="st">"DISABLING"</span>,<span class="st">"DESTROYED"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>level <span class="ot">=</span> <span class="fu">levels</span>(df_weather_damage<span class="sc">$</span>Weather)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>df_weather_damage <span class="ot">&lt;-</span> <span class="fu">table</span>(df_weather_damage<span class="sc">$</span>Vehicle.Damage.Extent,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                           df_weather_damage<span class="sc">$</span>Weather)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>df_weather_damage_count <span class="ot">&lt;-</span> <span class="fu">as.data.frame.matrix</span>(df_weather_damage)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>df_weather_damage_pc <span class="ot">&lt;-</span> df_weather_damage_count</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>) {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> level[i]</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  df_weather_damage_pc[[x]] <span class="ot">&lt;-</span> df_weather_damage_count[[x]] <span class="sc">/</span> <span class="fu">sum</span>(df_weather_damage_count[[x]]) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># df_weather_damage_count = t(df_weather_damage_count)</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># df_weather_damage_pc = t(df_weather_damage_pc)</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df_weather_damage_pc, <span class="st">"df_weather_damage_pc.csv"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df_weather_damage_count, <span class="st">"df_weather_damage_count.csv"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Weater~Injury</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>df_weather_injury <span class="ot">=</span> data_q4 <span class="sc">|&gt;</span> </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Injury.Severity, Weather)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>df_weather_injury<span class="sc">$</span>Weather <span class="ot">=</span> <span class="fu">as.factor</span>(df_weather_injury<span class="sc">$</span>Weather)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>df_weather_injury<span class="sc">$</span>Injury.Severity <span class="ot">=</span> <span class="fu">as.factor</span>(df_weather_injury<span class="sc">$</span>Injury.Severity) <span class="sc">|&gt;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_relevel</span>(<span class="st">"FATAL INJURY"</span>, <span class="at">after =</span> <span class="cn">Inf</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>level <span class="ot">=</span> <span class="fu">levels</span>(df_weather_injury<span class="sc">$</span>Weather)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>df_weather_injury <span class="ot">&lt;-</span> <span class="fu">table</span>(df_weather_injury<span class="sc">$</span>Injury.Severity,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                           df_weather_injury<span class="sc">$</span>Weather)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>df_weather_injury_count <span class="ot">&lt;-</span> <span class="fu">as.data.frame.matrix</span>(df_weather_injury)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>df_weather_injury_pc <span class="ot">&lt;-</span> df_weather_injury_count</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>) {</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> level[i]</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  df_weather_injury_pc[[x]] <span class="ot">&lt;-</span> df_weather_injury_count[[x]] <span class="sc">/</span> <span class="fu">sum</span>(df_weather_injury_count[[x]]) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># df_weather_injury_count = t(df_weather_injury_count)</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># df_weather_injury_pc = t(df_weather_injury_pc)</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df_weather_injury_pc, <span class="st">"df_weather_injury_pc.csv"</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df_weather_injury_count, <span class="st">"df_weather_injury_count.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="accident-hotspots" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="accident-hotspots"><span class="header-section-number">3.1</span> Accident Hotspots</h2>
+<p>The bar graph presents data on the number of traffic collision categorized by route and cross street types from 2015 to 2023 in Montgomery County.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change Variables as factors</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_q1<span class="sc">$</span>Route.Type <span class="ot">=</span>  <span class="fu">as.factor</span>(data_q1<span class="sc">$</span>Route.Type) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>data_q1<span class="sc">$</span>Cross.Street.Type <span class="ot">=</span> <span class="fu">as.factor</span>(data_q1<span class="sc">$</span>Cross.Street.Type) <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(data_q1, aes(y = fct_relevel(fct_rev(fct_infreq(Route.Type)), </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                                     "NA"))) +</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(fill = "cornflowerblue") +</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Number of Crashes", </span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#        y = "Route Type", </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#        title = "Number of Crashes by Route Types") +</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_light()</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(data_q1, aes(y = fct_relevel(fct_rev(fct_infreq(Cross.Street.Type)), </span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                                     "NA"))) +</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(fill = "cornflowerblue") +</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Number of Crashes",</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#        y = "Cross Street Type",</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#        title = "Number of Crashes by Cross Street Types") +</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_light()</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>data_q1<span class="sc">$</span>id <span class="ot">=</span> <span class="fu">rownames</span>(data_q1)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>data_q1 <span class="ot">=</span> <span class="fu">pivot_longer</span>(data_q1,<span class="at">cols=</span>Route.Type<span class="sc">:</span>Cross.Street.Type, </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                       <span class="at">names_to =</span> <span class="st">"location"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_q1,<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">fct_relevel</span>(<span class="fu">fct_rev</span>(<span class="fu">fct_infreq</span>(value)), </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"NA"</span>), <span class="at">fill =</span> location)) <span class="sc">+</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Crashes"</span>,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Types"</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Crashes by Route Types and Cross Street Types"</span>,</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"from 2015 to 2023"</span>) <span class="sc">+</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>The most notable finding is that County roads and Maryland State roads are the top two highest number of crashes for both route types and cross street types. For other categories such as Municipality, US (State), and Interstate (State), the number of crashes is relatively lower, with cross street types consistently recording fewer incidents than route types. Ramp, Other Public Roadway, Government, Service Road, and NA categories have the fewest crashes.</p>
+<p>However, the graph doesn’t provide the information that County roads and Maryland State roads are the most dangerous among all types. Since we collect the data in a county in Maryland state, the percentage of County and Maryland State roads are higher. More information is needed to determine the accident hotspot.</p>
 </section>
-<section id="q2" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="q2"><span class="header-section-number">3.2</span> Q2</h2>
+<section id="time-patterns" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="time-patterns"><span class="header-section-number">3.2</span> Time Patterns</h2>
+<p>Understanding the temporal patterns of road traffic accidents is crucial for developing effective safety measures and policies. By analyzing the frequency of crashes across different times of the day and week, researchers and policymakers can identify high-risk periods and underlying factors that contribute to these patterns.</p>
+<p>We will analysis the yearly, monthly, weekly and hourly traffic collision pattern in Montgomery County, Maryland.</p>
+<section id="yearly-seasonal-patterns" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="yearly-seasonal-patterns"><span class="header-section-number">3.2.1</span> Yearly &amp; Seasonal Patterns</h3>
+<p>The line graph below presents a detailed temporal analysis of traffic collision from 2015 to 2023, revealing several critical patterns within the data.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -316,9 +380,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(stat = "count") +</span></span>
 <span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_line(aes(group = 1), stat = "count", color = "cornflowerblue") +</span></span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle("Number of Crashes by Hours") +</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_light()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_light()</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_q2,<span class="fu">aes</span>(Month)) <span class="sc">+</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>), <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">color =</span> <span class="st">"cornflowerblue"</span>) <span class="sc">+</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year,<span class="at">ncol =</span> <span class="dv">9</span>) <span class="sc">+</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Number of Crashes"</span>, </span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Crashes Per Month Faceted by Year"</span>,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span>  <span class="st">"from 2015 to 2023"</span>) <span class="sc">+</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>, <span class="at">angle =</span> <span class="dv">45</span>),</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>         <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">str_sub</span>(x, <span class="dv">1</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="1152"></p>
 </div>
+</div>
+<p>Significantly, there is a <strong>conspicuous decline in the number of crashes during the year 2020</strong>. This aberration corresponds with the global onset of the COVID-19 pandemic, a period characterized by lockdowns and widespread restrictions on movement. The resulting reduction in road traffic during this time is likely the primary driver behind the observed decrease in crashes, as stay-at-home orders and the transition to remote work reduced the frequency of commuting and non-essential travel.</p>
+<p>Moreover, the graph illustrates <strong>recurrent peaks in the number of crashes during the months of May and October</strong> across multiple years. The reasons behind these spikes may be multifaceted. In May, increased travel due to warmer weather and social events, such as Memorial Day weekend in the United States, could contribute to higher traffic volumes and consequently, a greater incidence of crashes. October’s peak might be influenced by a combination of factors, including the end of summer vacations, the resumption of the school year, and potentially more challenging driving conditions due to seasonal weather changes, such as reduced daylight and falling leaves, which can affect road visibility and traction. These observations suggest that there are underlying seasonal behaviors and external events that significantly influence the rate of traffic incidents.</p>
+</section>
+<section id="weekly-time-patterns" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="weekly-time-patterns"><span class="header-section-number">3.2.2</span> Weekly &amp; Time Patterns</h3>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -327,221 +412,522 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>), <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">color =</span> <span class="st">"cornflowerblue"</span>) <span class="sc">+</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Weekday, <span class="at">ncol =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Number of Crashes"</span>, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Total Number of Crashes Per Hour Faceted by Weekday from 2015-2023"</span>) <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>, <span class="at">angle =</span> <span class="dv">45</span>),</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">str_sub</span>(x, <span class="dv">1</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Total Number of Crashes of Time of A Day Faceted by Weekday"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"from 2015 to 2023"</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>, <span class="at">angle =</span> <span class="dv">45</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">str_sub</span>(x, <span class="dv">1</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="1152"></p>
 </div>
 </div>
+<p>The line graph delineates the total number of crashes per hour, segmented by weekday, from 2015 to 2023. A prominent observation is that <strong>weekdays experience a higher frequency of crashes compared to weekends</strong>. This pattern likely reflects the routine dynamics of workweek traffic with increased vehicle volume due to commuting.</p>
+<p>Intriguingly, there are two <strong>distinct peaks that occur around 8 AM and 5 PM on weekdays</strong>, aligning with typical rush hour times when commuters are either heading to work or returning home. <strong>On weekends, the peaks is around 12 pm to 3 pm</strong>, which matches our routine. Since people tend to choose going out in the afternoon during the weekend, more traffic during that time. The data underscores the critical need for enhanced safety measures during peak commuting hours on weekdays to mitigate the risk of crashes.</p>
+</section>
+</section>
+<section id="collision-causes" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="collision-causes"><span class="header-section-number">3.3</span> Collision Causes</h2>
+<section id="driver-substance-abuse" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="driver-substance-abuse"><span class="header-section-number">3.3.1</span> Driver Substance Abuse</h3>
+<p><strong>Table 1: Percentage of Traffic Collision Involved Driver Substance Abuse</strong></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>None Detected</th>
+<th>Detected</th>
+<th>Unknown</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>71.19%</td>
+<td>3.64%</td>
+<td>25.17%</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Driver substance abuse stands as one potential causes of traffic collision. The table above indicates that in majority crash cases, no substances were detected in drivers involved in accidents. There is only a notable minority of cases that substance abuse was confirmed. We will analysis more on the detected substance abuse cases in following stacked bar graph:</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_q2,<span class="fu">aes</span>(Month)) <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>), <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">color =</span> <span class="st">"cornflowerblue"</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year,<span class="at">ncol =</span> <span class="dv">9</span>) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Number of Crashes"</span>, </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Crashes Per Month Faceted by Year from 2015-2023"</span>) <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>, <span class="at">angle =</span> <span class="dv">45</span>),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">str_sub</span>(x, <span class="dv">1</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Preprocessing</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Driver.Substance.Abuse <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Driver.Substance.Abuse) <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Driver.Distracted.By <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Driver.Distracted.By) <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Vehicle.Movement <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Vehicle.Movement) <span class="sc">|&gt;</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Equipment.Problems <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Equipment.Problems) <span class="sc">|&gt;</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Injury.Severity <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Injury.Severity) <span class="sc">|&gt;</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Vehicle.Damage.Extent) <span class="sc">|&gt;</span> </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>crashes <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Driver Substance Abuse</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">group_by</span>(data_q3,Driver.Substance.Abuse) <span class="sc">|&gt;</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">sum</span>(crashes)) <span class="sc">|&gt;</span> </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Driver.Substance.Abuse =</span> <span class="fu">reorder</span>(Driver.Substance.Abuse, count))</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>percentage <span class="ot">=</span> data<span class="sc">$</span>count<span class="sc">/</span><span class="fu">sum</span>(data<span class="sc">$</span>count)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(data, aes(percentage, Driver.Substance.Abuse)) +</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(stat = "identity", fill = "lightblue")</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Driver.Substance.Abuse <span class="sc">!=</span> <span class="st">"NA"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Driver.Substance.Abuse <span class="sc">!=</span> <span class="st">"NONE DETECTED"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Driver.Substance.Abuse <span class="sc">!=</span> <span class="st">"UNKNOWN"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Driver.Substance.Abuse <span class="sc">!=</span> <span class="st">"OTHER"</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driver.Substance.Abuse <span class="ot">=</span> <span class="fu">as.character</span>(data<span class="sc">$</span>Driver.Substance.Abuse)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Driver.Substance.Abuse[<span class="dv">4</span>] <span class="ot">=</span> <span class="st">"COMBINATION PRESENT"</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>reversed <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_reverse</span>(data<span class="sc">$</span>Driver.Substance.Abuse)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>split_strings <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(data<span class="sc">$</span>reversed, <span class="st">" "</span>, <span class="at">fixed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>substance <span class="ot">&lt;-</span> <span class="fu">sapply</span>(split_strings, <span class="cf">function</span>(x) stringi<span class="sc">::</span><span class="fu">stri_reverse</span>(x[<span class="dv">2</span>]))</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>category <span class="ot">&lt;-</span> <span class="fu">sapply</span>(split_strings, <span class="cf">function</span>(x) stringi<span class="sc">::</span><span class="fu">stri_reverse</span>(x[<span class="dv">1</span>]))</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>reversed <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>substance <span class="ot">=</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>substance) <span class="sc">|&gt;</span> </span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_relevel</span>(<span class="st">"ALCOHOL"</span>, <span class="st">"DRUG"</span>, <span class="st">"MEDICATION"</span>, <span class="st">"COMBINATION"</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(substance, count, <span class="at">fill =</span> category)) <span class="sc">+</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Substance"</span>, </span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Crashes"</span>,</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Crashes Involved in Driver Substance Abuse"</span>) <span class="sc">+</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="1152"></p>
+<p><img src="results_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The four main categories of substance that detected from driver in traffic collision but not allowed are alcohol, illegal drugs, medications that impair driving ability and a combination of these substances.</p>
+<p>In each categories, <strong>“Contributed”</strong> refers to instances where the substance present was deemed to have actively contributed to the cause of the crash, suggesting a direct link between impairment and the accident; <strong>“Present”</strong>, on the other hand, indicates cases where the substance was detected, but without a definitive contribution to the crash established.</p>
+<p>Upon examining the graph, it becomes evident that <strong>alcohol is the most commonly detected substance in traffic crashes</strong>, dominating the data in terms of both presence and contribution to accidents. Across all substance categories, including alcohol, drugs, medication, and combinations, the ‘Contributed’ figures—representing cases where the substance directly caused the crash—constitute roughly <strong>one-third</strong> of the instances where the substance was present. This ratio is consistent across all categories, indicating a significant direct impact of these substances on traffic safety. This underscores the critical need for robust preventive measures and strict enforcement of laws against driving under the influence of any impairing substances.</p>
+</section>
+<section id="driver-distraction" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="driver-distraction"><span class="header-section-number">3.3.2</span> Driver Distraction</h3>
+<p><strong>Table 2: Percentage of Traffic Collision Involved Driver Distraction</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Not Distracted or Unknown</th>
+<th>Inattention</th>
+<th>Internal Distraction</th>
+<th>External Distraction</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>81.10%</td>
+<td>15.00%</td>
+<td>1.30%</td>
+<td>0.55%</td>
+<td>2.05%</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">=</span> <span class="fu">group_by</span>(data_q3,Driver.Distracted.By) <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">sum</span>(crashes)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Driver.Distracted.By =</span> <span class="fu">reorder</span>(Driver.Distracted.By, count))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data2<span class="sc">$</span>percentage <span class="ot">=</span> data2<span class="sc">$</span>count<span class="sc">/</span><span class="fu">sum</span>(data2<span class="sc">$</span>count)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(data2, aes(percentage, Driver.Distracted.By)) +</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(stat = "identity", fill = "lightblue")</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> data2 <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    Driver.Distracted.By <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"NOT DISTRACTED"</span>, <span class="st">"UNKNOWN"</span>) <span class="sc">~</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Not Distracted or Unknown"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    Driver.Distracted.By <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"LOOKED BUT DID NOT SEE"</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"INATTENTIVE OR LOST IN THOUGHT"</span>) <span class="sc">~</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Inattention"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    Driver.Distracted.By <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BY OTHER OCCUPANTS"</span>, <span class="st">"OTHER CELLULAR PHONE RELATED"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"TALKING OR LISTENING TO CELLULAR PHONE"</span>, </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"TEXTING FROM A CELLULAR PHONE"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"DIALING CELLULAR PHONE"</span>, <span class="st">"EATING OR DRINKING"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"ADJUSTING AUDIO AND OR CLIMATE CONTROLS"</span>, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"USING OTHER DEVICE CONTROLS INTEGRAL TO VEHICLE"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"USING DEVICE OBJECT BROUGHT INTO VEHICLE"</span>, </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"BY MOVING OBJECT IN VEHICLE"</span>, <span class="st">"SMOKING RELATED"</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"OTHER ELECTRONIC DEVICE (NAVIGATIONAL PALM PILOT)"</span>) <span class="sc">~</span> </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Internal Distraction"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    Driver.Distracted.By <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DISTRACTED BY OUTSIDE PERSON OBJECT OR EVENT"</span>) <span class="sc">~</span> </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"External Distraction"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Other"</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># data3 = group_by(data2,category) |&gt;</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(count = sum(count))</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># data3$percentage = data3$count / sum(data3$count) * 100</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>data2 <span class="sc">|&gt;</span> </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">==</span> <span class="st">"Internal Distraction"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(percentage, Driver.Distracted.By)) <span class="sc">+</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span> </span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percentage of Total Crashes(%)"</span>, </span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Category"</span>, </span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Percentage of Crashes Caused by Internal Distraction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 </section>
-<section id="q3" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="q3"><span class="header-section-number">3.3</span> Q3</h2>
+<section id="equipment-problems" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="equipment-problems"><span class="header-section-number">3.3.3</span> Equipment Problems</h3>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_q3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data3 <span class="ot">=</span> <span class="fu">group_by</span>(data_q3,Equipment.Problems) <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">sum</span>(crashes)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Equipment.Problems =</span> <span class="fu">reorder</span>(Equipment.Problems, count))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>data3<span class="sc">$</span>percentage <span class="ot">=</span> data3<span class="sc">$</span>count<span class="sc">/</span><span class="fu">sum</span>(data2<span class="sc">$</span>count)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(data3, aes(percentage, Equipment.Problems)) +</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(stat = "identity", fill = "lightblue")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code> Driver.Substance.Abuse Driver.Distracted.By Vehicle.Movement  
- Length:169760          Length:169760        Length:169760     
- Class :character       Class :character     Class :character  
- Mode  :character       Mode  :character     Mode  :character  
- Equipment.Problems Injury.Severity    Vehicle.Damage.Extent
- Length:169760      Length:169760      Length:169760        
- Class :character   Class :character   Class :character     
- Mode  :character   Mode  :character   Mode  :character     </code></pre>
 </div>
-</div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>No Misuse</th>
+<th>Misuse</th>
+<th>Unknown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>71.67%</td>
+<td>0.21%</td>
+<td>28.12%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="vehicle-movement" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="vehicle-movement"><span class="header-section-number">3.3.4</span> Vehicle Movement</h3>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Driver.Substance.Abuse <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Driver.Substance.Abuse) <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Driver.Distracted.By <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Driver.Distracted.By) <span class="sc">|&gt;</span> </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Vehicle.Movement <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Vehicle.Movement) <span class="sc">|&gt;</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>data_q3<span class="sc">$</span>Equipment.Problems <span class="ot">=</span> <span class="fu">as.factor</span>(data_q3<span class="sc">$</span>Equipment.Problems) <span class="sc">|&gt;</span> </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data4 <span class="ot">=</span> data_q3 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Vehicle.Movement, Injury.Severity, Vehicle.Damage.Extent)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>data4<span class="sc">$</span>crashes <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>data4<span class="sc">$</span>Movement_Category <span class="ot">=</span> data4<span class="sc">$</span>Vehicle.Movement</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>data4 <span class="ot">=</span> data4 <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Movement_Category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ACCELERATING"</span>, <span class="st">"MOVING CONSTANT SPEED"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"NEGOTIATING A CURVE"</span>) <span class="sc">~</span> <span class="st">"In Motion"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"MAKING LEFT TURN"</span>, <span class="st">"MAKING RIGHT TURN"</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"MAKING U TURN"</span>, <span class="st">"CHANGING LANES"</span>) <span class="sc">~</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Turning"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"STARTING FROM LANE"</span>, <span class="st">"STARTING FROM PARKED"</span>) <span class="sc">~</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Starting"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BACKING"</span>, <span class="st">"ENTERING TRAFFIC LANE"</span>, </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"LEAVING TRAFFIC LANE"</span>) <span class="sc">~</span> </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Traffic Related"</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PARKED"</span>, <span class="st">"PARKING"</span>, <span class="st">"STOPPED IN TRAFFIC LANE"</span>) <span class="sc">~</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Stationary"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"PASSING"</span>, <span class="st">"SKIDDING"</span>, <span class="st">"SLOWING OR STOPPING"</span>) <span class="sc">~</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Maneuvering"</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DRIVERLESS MOVING VEH."</span>) <span class="sc">~</span> <span class="st">"Driverless"</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    Vehicle.Movement <span class="sc">==</span> <span class="st">"UNKNOWN"</span> <span class="sc">|</span> Vehicle.Movement <span class="sc">==</span> <span class="st">"NA"</span> <span class="sc">~</span> <span class="st">"Unknown"</span>,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Other"</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>data4<span class="sc">$</span>Movement_Category <span class="ot">=</span> <span class="fu">as.factor</span>(data4<span class="sc">$</span>Movement_Category) <span class="sc">|&gt;</span> </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_infreq</span>()</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># datam = group_by(data4,Movement_Category) |&gt; </span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarise(count = sum(crashes)) |&gt; </span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">#   mutate(Movement_Category = reorder(Movement_Category, count))</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co"># datam$percentage = datam$count/sum(datam$count)*100</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(datam, aes(percentage, Movement_Category)) +</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar(stat = "identity", fill = "lightblue")</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>data4_filtered <span class="ot">&lt;-</span> data4 <span class="sc">%&gt;%</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Movement_Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>, <span class="st">"Other"</span>,<span class="st">"Driverless"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Vehicle.Damage.Extent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DESTROYED"</span>, <span class="st">"DISABLING"</span>, <span class="st">"FUNCTIONAL"</span>,</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"NO DAMAGE"</span>, <span class="st">"SUPERFICIAL"</span>))</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">droplevels</span>(Movement_Category) <span class="sc">~</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>             <span class="fu">droplevels</span>(<span class="fu">fct_rev</span>(Vehicle.Damage.Extent)),</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>           <span class="at">dir =</span><span class="fu">c</span>(<span class="st">'v'</span>, <span class="st">'h'</span>),</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">name =</span> <span class="st">"Blues"</span>),</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">main =</span> <span class="st">"Vehicle Momement vs. Vehicle Damage Extent"</span>,</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab =</span> <span class="st">"Vehicle Movement"</span>, </span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylab =</span> <span class="st">"Damage Level"</span>,</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>           data4_filtered) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="960"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mosaicplot(droplevels(Movement_Category) ~</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#              droplevels(fct_relevel(Injury.Severity, "FATAL INJURY", after = Inf)),</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#            dir =c('v', 'h'),</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#            color = brewer.pal(n = 5, name = "Blues"),</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#            main = "Vehicle Momement vs. Injury Severity",</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#            xlab = "Vehicle Movement", </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#            ylab = "Injury Severity Level",</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#            data4_filtered) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+</section>
 </section>
 <section id="q4" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="q4"><span class="header-section-number">3.4</span> Q4</h2>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Since OTHER and UNKNOWN do not provide information of interest for our questions, we drop these two levels from</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># our analysis for Vehile damage extent</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>data_q4_regrouped <span class="ot">&lt;-</span> data_q4 <span class="sc">%&gt;%</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Weather =</span> <span class="fu">case_when</span>(</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      Weather <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"CLEAR"</span>, <span class="st">"CLOUDY"</span>) <span class="sc">~</span> <span class="st">"CLEAR"</span>,</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"ADVERSE"</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Surface.Condition =</span> <span class="fu">case_when</span>(</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DRY"</span>) <span class="sc">~</span> <span class="st">"DRY"</span>,</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"WET"</span>, <span class="st">"WATER(STANDING/MOVING)"</span>) <span class="sc">~</span> <span class="st">"WET"</span>,</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ICE"</span>, <span class="st">"SLUSH"</span>, <span class="st">"SNOW"</span>) <span class="sc">~</span> <span class="st">"SNOW/ICE"</span>,</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"MUD, DIRT, GRAVEL"</span>, <span class="st">"SAND"</span>, <span class="st">"OIL"</span>, <span class="st">"OTHER"</span>, <span class="st">"UNKNOWN"</span>) <span class="sc">~</span> <span class="st">"OTHERS"</span>,</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> Surface.Condition </span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>data_q4_regrouped<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_regrouped<span class="sc">$</span>Vehicle.Damage.Extent, </span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>,<span class="st">"OTHER"</span>, <span class="st">"NO DAMAGE"</span>, <span class="st">"SUPERFICIAL"</span>, <span class="st">"FUNCTIONAL"</span>, <span class="st">"DISABLING"</span>, <span class="st">"DESTROYED"</span>))</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>data_q4_filtered <span class="ot">&lt;-</span> data_q4_regrouped <span class="sc">%&gt;%</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Vehicle.Damage.Extent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>, <span class="st">"OTHER"</span>))</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent)</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co"># mosaic(Vehicle.Damage.Extent ~ Surface.Condition,</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">#       rot_labels=c(45, 0),</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="co">#       direction =c('v','h'),</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">#       data_q4_filtered</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co">#       )</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co"># mosaic(Vehicle.Damage.Extent ~ Weather,</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="co">#       rot_labels=c(0, 0),</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="co">#       direction =c('v','h'),</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co">#       data_q4_filtered</span></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="co">#       )</span></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(Vehicle.Damage.Extent <span class="sc">~</span>  Weather <span class="sc">+</span> Surface.Condition,</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">rot_labels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">45</span>, <span class="dv">45</span>),</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">direction =</span><span class="fu">c</span>(<span class="st">'v'</span>, <span class="st">'v'</span>, <span class="st">'h'</span>),</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>      data_q4_filtered</span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>      ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Since OTHER and UNKNOWN do not provide information of interest for our questions, we drop these two levels from</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># our analysis for Vehile damage extent</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>data_q4_regrouped <span class="ot">&lt;-</span> data_q4 <span class="sc">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Weather =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      Weather <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"CLEAR"</span>, <span class="st">"CLOUDY"</span>) <span class="sc">~</span> <span class="st">"CLEAR"</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"ADVERSE"</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Surface.Condition =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DRY"</span>) <span class="sc">~</span> <span class="st">"DRY"</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"WET"</span>, <span class="st">"WATER(STANDING/MOVING)"</span>) <span class="sc">~</span> <span class="st">"WET"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ICE"</span>, <span class="st">"SLUSH"</span>, <span class="st">"SNOW"</span>) <span class="sc">~</span> <span class="st">"SNOW/ICE"</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>      Surface.Condition <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"MUD, DIRT, GRAVEL"</span>, <span class="st">"SAND"</span>, <span class="st">"OIL"</span>, <span class="st">"OTHER"</span>, <span class="st">"UNKNOWN"</span>) <span class="sc">~</span> <span class="st">"OTHERS"</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> Surface.Condition </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>data_q4_regrouped<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_regrouped<span class="sc">$</span>Vehicle.Damage.Extent, </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>,<span class="st">"OTHER"</span>, <span class="st">"NO DAMAGE"</span>, <span class="st">"SUPERFICIAL"</span>, <span class="st">"FUNCTIONAL"</span>, <span class="st">"DISABLING"</span>, <span class="st">"DESTROYED"</span>))</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>data_q4_filtered <span class="ot">&lt;-</span> data_q4_regrouped <span class="sc">%&gt;%</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Vehicle.Damage.Extent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>, <span class="st">"OTHER"</span>))</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co"># mosaic(Vehicle.Damage.Extent ~ Surface.Condition,</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">#       rot_labels=c(45, 0),</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co">#       direction =c('v','h'),</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="co">#       data_q4_filtered</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#       )</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co"># mosaic(Vehicle.Damage.Extent ~ Weather,</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co">#       rot_labels=c(0, 0),</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co">#       direction =c('v','h'),</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="co">#       data_q4_filtered</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co">#       )</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(Vehicle.Damage.Extent <span class="sc">~</span>  Weather <span class="sc">+</span> Surface.Condition,</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">rot_labels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">45</span>, <span class="dv">45</span>, <span class="dv">45</span>),</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">direction =</span><span class="fu">c</span>(<span class="st">'v'</span>, <span class="st">'v'</span>, <span class="st">'h'</span>),</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>      data_q4_filtered</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="1152"></p>
+<p><img src="results_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="1152"></p>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># top coding, group 55 and 55+ together due to small number for 60, 65, 70, 75</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data_q4_speed <span class="ot">&lt;-</span> data_q4 <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Speed.Limit =</span> <span class="fu">case_when</span>(</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      Speed.Limit <span class="sc">&gt;=</span> <span class="dv">55</span> <span class="sc">~</span> <span class="st">"55+"</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span>  <span class="fu">as.character</span>(Speed.Limit)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>data_q4_speed<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_speed<span class="sc">$</span>Vehicle.Damage.Extent, </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>,<span class="st">"OTHER"</span>, <span class="st">"NO DAMAGE"</span>, <span class="st">"SUPERFICIAL"</span>, <span class="st">"FUNCTIONAL"</span>, <span class="st">"DISABLING"</span>, <span class="st">"DESTROYED"</span>))</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>data_q4_speed<span class="sc">$</span>Speed.Limit <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_speed<span class="sc">$</span>Speed.Limit,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"5"</span>, <span class="st">"10"</span>, <span class="st">"15"</span>, <span class="st">"20"</span>, <span class="st">"25"</span>, <span class="st">"30"</span>, <span class="st">"35"</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">"40"</span>, <span class="st">"45"</span>, <span class="st">"50"</span>, <span class="st">"55+"</span>))</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>data_q4_speed<span class="sc">$</span>Injury.Severity <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_speed<span class="sc">$</span>Injury.Severity, </span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"NO APPARENT INJURY"</span>, <span class="st">"POSSIBLE INJURY"</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>                                                              <span class="st">"SUSPECTED MINOR INJURY"</span>, </span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>                                                              <span class="st">"SUSPECTED SERIOUS INJURY"</span>, <span class="st">"FATAL INJURY"</span>))</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>data_q4_filtered <span class="ot">&lt;-</span> data_q4_speed <span class="sc">%&gt;%</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Vehicle.Damage.Extent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>, <span class="st">"OTHER"</span>))</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co"># speed-limit with vehicle damage extent</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(Vehicle.Damage.Extent <span class="sc">~</span> Speed.Limit,</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">rot_labels=</span><span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">0</span>),</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">direction =</span><span class="fu">c</span>(<span class="st">'v'</span>,<span class="st">'h'</span>),</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>      data_q4_filtered</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="results_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="1248"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># speed-limit with injury-severity</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mosaic(Injury.Severity ~ Speed.Limit,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#        rot_labels=c(45, 45),</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#        direction=c('v', 'h'),</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#        data_q4_filtered) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theme_heat <span class="ot">&lt;-</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">15</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">5.5</span>),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>lighting_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"DAWN"</span>, <span class="st">"DAYLIGHT"</span>, <span class="st">"DUSK"</span>, <span class="st">"DARK LIGHTS ON"</span>, <span class="st">"DARK -- UNKNOWN LIGHTING"</span>, </span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"DARK NO LIGHTS"</span>, <span class="st">"OTHER"</span>, <span class="st">"UNKNOWN"</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>injury_order <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">"NO APPARENT INJURY"</span>, <span class="st">"POSSIBLE INJURY"</span>, <span class="st">"SUSPECTED MINOR INJURY"</span>, <span class="st">"SUSPECTED SERIOUS INJURY"</span>, <span class="st">"FATAL INJURY"</span>))</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> data_q4 <span class="sc">%&gt;%</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Speed.Limit) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Traffic.Control) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Injury.Severity)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Light, Traffic.Control, Injury.Severity) <span class="sc">%&gt;%</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Light, Traffic.Control, Injury.Severity) <span class="sc">%&gt;%</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Frequency =</span> <span class="fu">n</span>())</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># View the new dataframe</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>mydata<span class="sc">$</span>Light <span class="ot">&lt;-</span> <span class="fu">factor</span>(mydata<span class="sc">$</span>Light, <span class="at">levels=</span>lighting_order)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>mydata<span class="sc">$</span>Injury.Severity <span class="ot">&lt;-</span> <span class="fu">factor</span>(mydata<span class="sc">$</span>Injury.Severity, <span class="at">levels=</span>injury_order)</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>mydata3 <span class="ot">&lt;-</span> mydata <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Injury.Severity, Light) <span class="sc">|&gt;</span> </span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Total =</span> <span class="fu">sum</span>(Frequency)) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mydata3, <span class="fu">aes</span>(<span class="at">x =</span> Light, <span class="at">y =</span> Traffic.Control)) <span class="sc">+</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill =</span> (Frequency<span class="sc">/</span>Total)), <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span> </span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"black"</span>, <span class="at">mid =</span> <span class="st">"white"</span>,</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                        <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Injury.Severity) <span class="sc">+</span> theme_heat <span class="sc">+</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Heatmap for Light and Traffic Control Conditions Under Different Injury Levels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># top coding, group 55 and 55+ together due to small number for 60, 65, 70, 75</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data_q4_speed <span class="ot">&lt;-</span> data_q4 <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Speed.Limit =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      Speed.Limit <span class="sc">&gt;=</span> <span class="dv">55</span> <span class="sc">~</span> <span class="st">"55+"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span>  <span class="fu">as.character</span>(Speed.Limit)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>data_q4_speed<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_speed<span class="sc">$</span>Vehicle.Damage.Extent, </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>,<span class="st">"OTHER"</span>, <span class="st">"NO DAMAGE"</span>, <span class="st">"SUPERFICIAL"</span>, <span class="st">"FUNCTIONAL"</span>, <span class="st">"DISABLING"</span>, <span class="st">"DESTROYED"</span>))</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>data_q4_speed<span class="sc">$</span>Speed.Limit <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_speed<span class="sc">$</span>Speed.Limit,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"5"</span>, <span class="st">"10"</span>, <span class="st">"15"</span>, <span class="st">"20"</span>, <span class="st">"25"</span>, <span class="st">"30"</span>, <span class="st">"35"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">"40"</span>, <span class="st">"45"</span>, <span class="st">"50"</span>, <span class="st">"55+"</span>))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>data_q4_speed<span class="sc">$</span>Injury.Severity <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_q4_speed<span class="sc">$</span>Injury.Severity, </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"NO APPARENT INJURY"</span>, <span class="st">"POSSIBLE INJURY"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                                                              <span class="st">"SUSPECTED MINOR INJURY"</span>, </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                                                              <span class="st">"SUSPECTED SERIOUS INJURY"</span>, <span class="st">"FATAL INJURY"</span>))</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>data_q4_filtered <span class="ot">&lt;-</span> data_q4_speed <span class="sc">%&gt;%</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Vehicle.Damage.Extent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"UNKNOWN"</span>, <span class="st">"OTHER"</span>))</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(data_q4_filtered<span class="sc">$</span>Vehicle.Damage.Extent)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># speed-limit with vehicle damage extent</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(Vehicle.Damage.Extent <span class="sc">~</span> Speed.Limit,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">rot_labels=</span><span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">0</span>),</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">direction =</span><span class="fu">c</span>(<span class="st">'v'</span>,<span class="st">'h'</span>),</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      data_q4_filtered</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="1248"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># speed-limit with injury-severity</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mosaic(Injury.Severity ~ Speed.Limit,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#        rot_labels=c(45, 45),</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#        direction=c('v', 'h'),</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#        data_q4_filtered) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_1 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Surface.Condition, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_2 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Weather, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_3 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Traffic.Control, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_4 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Light, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_5 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Speed.Limit, <span class="at">data =</span> data_q4_filtered )</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>injury_severity_table_1 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Surface.Condition, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>injury_severity_table_2 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Weather, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>injury_severity_table_3 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Traffic.Control, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>injury_severity_table_4 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Light, <span class="at">data =</span> data_q4_filtered)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>injury_severity_table_5 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Speed.Limit, <span class="at">data =</span> data_q4_filtered )</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># chi-q test Vehicle.Damage.Extent vs. Surface.Condition</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_1)</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># # chi-q test Vehicle.Damage.Extent vs. Weather</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_2)</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_3)</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_4)</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_5)</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_1)</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_2)</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_3)</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_4)</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>theme_heat <span class="ot">&lt;-</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">15</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">5.5</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>lighting_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"DAWN"</span>, <span class="st">"DAYLIGHT"</span>, <span class="st">"DUSK"</span>, <span class="st">"DARK LIGHTS ON"</span>, <span class="st">"DARK -- UNKNOWN LIGHTING"</span>, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"DARK NO LIGHTS"</span>, <span class="st">"OTHER"</span>, <span class="st">"UNKNOWN"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>injury_order <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">"NO APPARENT INJURY"</span>, <span class="st">"POSSIBLE INJURY"</span>, <span class="st">"SUSPECTED MINOR INJURY"</span>, <span class="st">"SUSPECTED SERIOUS INJURY"</span>, <span class="st">"FATAL INJURY"</span>))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> data_q4 <span class="sc">%&gt;%</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Speed.Limit) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Traffic.Control) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Injury.Severity)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Light, Traffic.Control, Injury.Severity) <span class="sc">%&gt;%</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Light, Traffic.Control, Injury.Severity) <span class="sc">%&gt;%</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Frequency =</span> <span class="fu">n</span>())</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># View the new dataframe</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>mydata<span class="sc">$</span>Light <span class="ot">&lt;-</span> <span class="fu">factor</span>(mydata<span class="sc">$</span>Light, <span class="at">levels=</span>lighting_order)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>mydata<span class="sc">$</span>Injury.Severity <span class="ot">&lt;-</span> <span class="fu">factor</span>(mydata<span class="sc">$</span>Injury.Severity, <span class="at">levels=</span>injury_order)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>mydata3 <span class="ot">&lt;-</span> mydata <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Injury.Severity, Light) <span class="sc">|&gt;</span> </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Total =</span> <span class="fu">sum</span>(Frequency)) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>()</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mydata3, <span class="fu">aes</span>(<span class="at">x =</span> Light, <span class="at">y =</span> Traffic.Control)) <span class="sc">+</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill =</span> (Frequency<span class="sc">/</span>Total)), <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span> </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"black"</span>, <span class="at">mid =</span> <span class="st">"white"</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>                        <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Injury.Severity) <span class="sc">+</span> theme_heat <span class="sc">+</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Heatmap for Light and Traffic Control Conditions Under Different Injury Levels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="1248"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_1 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Surface.Condition, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_2 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Weather, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_3 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Traffic.Control, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_4 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Light, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>vehicle_damage_table_5 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Vehicle.Damage.Extent <span class="sc">+</span> Speed.Limit, <span class="at">data =</span> data_q4_filtered )</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>injury_severity_table_1 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Surface.Condition, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>injury_severity_table_2 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Weather, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>injury_severity_table_3 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Traffic.Control, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>injury_severity_table_4 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Light, <span class="at">data =</span> data_q4_filtered)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>injury_severity_table_5 <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> Injury.Severity <span class="sc">+</span> Speed.Limit, <span class="at">data =</span> data_q4_filtered )</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># chi-q test Vehicle.Damage.Extent vs. Surface.Condition</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_1)</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># # chi-q test Vehicle.Damage.Extent vs. Weather</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_2)</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_3)</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_4)</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(vehicle_damage_table_5)</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_1)</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_2)</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_3)</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_4)</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(injury_severity_table_5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="q5" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="q5"><span class="header-section-number">3.5</span> Q5</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_q5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Vehicle.Body.Type   Vehicle.Year  Vehicle.Make       Vehicle.Damage.Extent
+ Length:169760      Min.   :   0   Length:169760      Length:169760        
+ Class :character   1st Qu.:2006   Class :character   Class :character     
+ Mode  :character   Median :2011   Mode  :character   Mode  :character     
+                    Mean   :1966                                           
+                    3rd Qu.:2015                                           
+                    Max.   :9999                                           </code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_q5<span class="sc">$</span>Vehicle.Body.Type <span class="ot">=</span> <span class="fu">as.factor</span>(data_q5<span class="sc">$</span>Vehicle.Body.Type) <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>data_q5<span class="sc">$</span>Vehicle.Year[data_q5<span class="sc">$</span>Vehicle.Year <span class="sc">&gt;</span> <span class="dv">2013</span>] <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>data_q5<span class="sc">$</span>Vehicle.Year[data_q5<span class="sc">$</span>Vehicle.Year <span class="sc">&lt;</span> <span class="dv">1886</span>] <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># data_q5$Vehicle.Year = as.factor(data_q5$Vehicle.Year) |&gt; </span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   fct_explicit_na("NA")</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>data_q5<span class="sc">$</span>Vehicle.Year <span class="ot">=</span> <span class="dv">2013</span> <span class="sc">-</span> data_q5<span class="sc">$</span>Vehicle.Year</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>light <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"(SPORT) UTILITY VEHICLE"</span>, <span class="st">"PASSENGER CAR"</span>, <span class="st">"STATION WAGON"</span>, </span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">"PICKUP TRUCK"</span>, <span class="st">"VAN"</span>, <span class="st">"LIMOUSINE"</span>, <span class="st">"AUTOCYCLE"</span>, </span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">"MOPED"</span>, <span class="st">"MOTORCYCLE"</span>, <span class="st">"LOW SPEED VEHICLE"</span>, </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">"SNOWMOBILE"</span>, <span class="st">"OTHER LIGHT TRUCKS (10,000LBS (4,536KG) OR LESS)"</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>medium <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"AMBULANCE/NON EMERGENCY"</span>, <span class="st">"CROSS COUNTRY BUS"</span>, </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>           <span class="st">"FARM VEHICLE"</span>, <span class="st">"POLICE VEHICLE/NON EMERGENCY"</span>, <span class="st">"OTHER BUS"</span>,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>           <span class="st">"RECREATIONAL VEHICLE"</span>, <span class="st">"SCHOOL BUS"</span>, <span class="st">"TRANSIT BUS"</span>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>heavy <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"CARGO VAN/LIGHT TRUCK 2 AXLES (OVER 10,000LBS (4,536 KG))"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>          <span class="st">"MEDIUM/HEAVY TRUCKS 3 AXLES (OVER 10,000LBS (4,536KG))"</span>, </span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">"TRUCK TRACTOR"</span>)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>data_q5<span class="sc">$</span>Vehicle.Size <span class="ot">=</span> <span class="fu">with</span>(data_q5, </span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">ifelse</span>(Vehicle.Body.Type <span class="sc">%in%</span> light, <span class="st">"Light"</span>,</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">ifelse</span>(Vehicle.Body.Type <span class="sc">%in%</span> medium, <span class="st">"Medium"</span>,</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">ifelse</span>(Vehicle.Body.Type <span class="sc">%in%</span> heavy, <span class="st">"Heavy"</span>,</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Unknown &amp; Others"</span>)))) <span class="sc">|&gt;</span> </span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.factor</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_relevel</span>(<span class="st">"Light"</span>,<span class="st">"Medium"</span>,<span class="st">"Heavy"</span>,<span class="st">"Unknown &amp; Others"</span>)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>data_q5<span class="sc">$</span>Vehicle.Damage.Extent <span class="ot">=</span> <span class="fu">as.factor</span>(data_q5<span class="sc">$</span>Vehicle.Damage.Extent) <span class="sc">|&gt;</span> </span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_explicit_na</span>(<span class="st">"NA"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fct_relevel</span>(<span class="st">"NO DAMAGE"</span>, <span class="st">"SUPERFICIAL"</span>, <span class="st">"FUNCTIONAL"</span>, <span class="st">"DISABLING"</span>,</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>              <span class="st">"DESTROYED"</span>,<span class="st">"UNKNOWN"</span>, <span class="st">"OTHER"</span>, <span class="st">"NA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vehicle.Year vs Vehicle.Damage.Extent</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_q5, <span class="fu">aes</span>(Vehicle.Year, <span class="fu">fct_rev</span>(Vehicle.Damage.Extent))) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">varwidth =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(data_q5<span class="sc">$</span>Vehicle.Year, <span class="at">na.rm =</span> T),<span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Vehicle Age"</span>, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Vehicle Damage Extent"</span>, </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Boxplot of Vehicle Age by Vehicle Damage Extent"</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="768"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vehicle.Size vs Vehicle.Damage.Extent</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>data_q5<span class="sc">$</span>crash <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data_q5 <span class="sc">|&gt;</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Vehicle.Size, Vehicle.Damage.Extent) <span class="sc">|&gt;</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_crashes =</span> <span class="fu">sum</span>(crash))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(Vehicle.Damage.Extent, total_crashes)) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Vehicle.Size,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">nrow =</span> <span class="dv">4</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Vehicle Damage Extent"</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Crashed"</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Cleveland Dot Plot of Number of Crashes of Vehicle Damage Extent </span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="st">for Different Vehicle Size"</span>) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="768"></p>
+</div>
 </div>
 
 
