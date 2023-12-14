@@ -170,6 +170,43 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>
+<p>
+This interactive section is mainly for readers to explore our results to Q4.
+</p>
+<p>
+</p><ol type="1">
+<li>Start by choosing your independent variable from the dropdown menu. You can select from options such as “Weather,” “Speed Limit,” “Surface Condition,” “Light,” and “Traffic Control.” Next, select your dependent variable. Options include “Injury Severity” and “Vehicle Damage Extent.”<br>
+</li>
+</ol>
+<p></p>
+<p>
+</p><ol start="2" type="1">
+<li>After selecting your variables, the webpage generates two bar graphs. The top graph illustrates the distribution of the chosen dependent variable by the first level of your independent variable. Simultaneously, the bottom graph shows the distribution by the second level of your independent variable.</li>
+</ol>
+<p></p>
+<p>
+</p><ol start="3" type="1">
+<li>Each bar on the graphs represents a specific category within the chosen independent variable. Hover over a bar to view detailed information about that category. Choose variables and levels of your interest to explore our results!</li>
+</ol>
+<p></p>
+<div>
+<p><label>Independent Variable:</label> <select id="independentDropdown"> <option value="Weather">Weather</option> <option value="Surface.Condition">Surface Condition</option> <option value="Light">Light</option> <option value="Traffic.Control">Traffic Control</option> <option value="Speed.Limit">Speed Limit</option> </select></p>
+</div>
+<div>
+<p><label>Dependent Variable:</label> <select id="dependentDropdown"> <option value="Injury.Severity">Injury Severity</option> <option value="Vehicle.Damage.Extent">Vehicle Damage Extent</option> </select></p>
+</div>
+<div>
+<label>Chosen Independent Variable Level 1:</label> <select id="chosenindependent"> <option>NONE</option> </select>
+</div>
+<div>
+<p><label>Chosen Inependent Variable Level 2:</label> <select id="chosendependent"> <option>NONE</option> </select></p>
+</div>
+<div id="leftGraph">
+
+</div>
+<div id="rightGraph">
+
+</div>
 
 
 
