@@ -1,0 +1,298 @@
+---
+title: "data_processing"
+editor: visual
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(tidyr)
+library(lubridate)
+library(stringr)
+data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",",na.strings=c("","N/A"))
+data_q4 = data |> select(Weather,Surface.Condition,Light,
+                         Traffic.Control,Speed.Limit,
+                         Injury.Severity,Vehicle.Damage.Extent)
+```
+
+```{r}
+## Weater~Demage
+df_weather_damage = data_q4 |> 
+  select(Vehicle.Damage.Extent, Weather) |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
+df_weather_damage$Weather = as.factor(df_weather_damage$Weather)
+df_weather_damage$Vehicle.Damage.Extent = as.factor(df_weather_damage$Vehicle.Damage.Extent) |> 
+  fct_relevel("NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING","DESTROYED")
+level = levels(df_weather_damage$Weather)
+df_weather_damage <- table(df_weather_damage$Vehicle.Damage.Extent,
+                           df_weather_damage$Weather)
+df_weather_damage_count <- as.data.frame.matrix(df_weather_damage)
+column_sums <- colSums(df_weather_damage_count, na.rm = TRUE)
+df_weather_damage_count <- rbind(df_weather_damage_count, Sum = column_sums)
+df_weather_damage_count['Sum', ] <- df_weather_damage_count['Sum', ]
+df_weather_damage_pc <- df_weather_damage_count
+for (i in 1:12) {
+  x = level[i]
+  df_weather_damage_pc[[x]] <- round(df_weather_damage_count[[x]] * 2 / sum(df_weather_damage_count[[x]]) * 100, digits=1)
+}
+# df_weather_damage_count = t(df_weather_damage_count)
+# df_weather_damage_pc = t(df_weather_damage_pc)
+write.csv(df_weather_damage_pc, "df_weather_damage_pc.csv")
+write.csv(df_weather_damage_count, "df_weather_damage_count.csv")
+
+## Weater~Injury
+df_weather_injury = data_q4 |> 
+    select(Injury.Severity, Weather)
+df_weather_injury$Weather = as.factor(df_weather_injury$Weather)
+df_weather_injury$Injury.Severity = as.factor(df_weather_injury$Injury.Severity) |>
+  fct_relevel("FATAL INJURY", after = Inf)
+level = levels(df_weather_injury$Weather)
+df_weather_injury <- table(df_weather_injury$Injury.Severity,
+                           df_weather_injury$Weather)
+
+df_weather_injury_count <- as.data.frame.matrix(df_weather_injury)
+column_sums <- colSums(df_weather_injury_count, na.rm = TRUE)
+df_weather_injury_count <- rbind(df_weather_injury_count, Sum = column_sums)
+df_weather_injury_count['Sum', ] <- df_weather_injury_count['Sum', ]
+
+
+df_weather_injury_pc <- df_weather_injury_count
+for (i in 1:12) {
+  x = level[i]
+  df_weather_injury_pc[[x]] <- round(df_weather_injury_count[[x]] * 2 / sum(df_weather_injury_count[[x]]) * 100, digits=1)
+}
+# df_weather_injury_count = t(df_weather_injury_count)
+# df_weather_injury_pc = t(df_weather_injury_pc)
+write.csv(df_weather_injury_pc, "df_weather_injury_pc.csv")
+write.csv(df_weather_injury_count, "df_weather_injury_count.csv")
+```
+
+```{r}
+## Weater~Demage
+df_weather_damage = data_q4 |> 
+  select(Vehicle.Damage.Extent, Weather) |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
+df_weather_damage$Weather = as.factor(df_weather_damage$Weather)
+df_weather_damage$Vehicle.Damage.Extent = as.factor(df_weather_damage$Vehicle.Damage.Extent) |> 
+  fct_relevel("NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING","DESTROYED")
+level = levels(df_weather_damage$Weather)
+df_weather_damage <- table(df_weather_damage$Vehicle.Damage.Extent,
+                           df_weather_damage$Weather)
+df_weather_damage_count <- as.data.frame.matrix(df_weather_damage)
+column_sums <- colSums(df_weather_damage_count, na.rm = TRUE)
+df_weather_damage_count <- rbind(df_weather_damage_count, Sum = column_sums)
+df_weather_damage_count['Sum', ] <- df_weather_damage_count['Sum', ]
+df_weather_damage_pc <- df_weather_damage_count
+for (i in 1:12) {
+  x = level[i]
+  df_weather_damage_pc[[x]] <- round(df_weather_damage_count[[x]] * 2 / sum(df_weather_damage_count[[x]]) * 100, digits=1)
+}
+# df_weather_damage_count = t(df_weather_damage_count)
+# df_weather_damage_pc = t(df_weather_damage_pc)
+write.csv(df_weather_damage_pc, "df_weather_damage_pc.csv")
+write.csv(df_weather_damage_count, "df_weather_damage_count.csv")
+
+## Weater~Injury
+df_weather_injury = data_q4 |> 
+    select(Injury.Severity, Weather)
+df_weather_injury$Weather = as.factor(df_weather_injury$Weather)
+df_weather_injury$Injury.Severity = as.factor(df_weather_injury$Injury.Severity) |>
+  fct_relevel("FATAL INJURY", after = Inf)
+level = levels(df_weather_injury$Weather)
+df_weather_injury <- table(df_weather_injury$Injury.Severity,
+                           df_weather_injury$Weather)
+
+df_weather_injury_count <- as.data.frame.matrix(df_weather_injury)
+column_sums <- colSums(df_weather_injury_count, na.rm = TRUE)
+df_weather_injury_count <- rbind(df_weather_injury_count, Sum = column_sums)
+df_weather_injury_count['Sum', ] <- df_weather_injury_count['Sum', ]
+
+
+df_weather_injury_pc <- df_weather_injury_count
+for (i in 1:12) {
+  x = level[i]
+  df_weather_injury_pc[[x]] <- round(df_weather_injury_count[[x]] * 2 / sum(df_weather_injury_count[[x]]) * 100, digits=1)
+}
+# df_weather_injury_count = t(df_weather_injury_count)
+# df_weather_injury_pc = t(df_weather_injury_pc)
+write.csv(df_weather_injury_pc, "df_weather_injury_pc.csv")
+write.csv(df_weather_injury_count, "df_weather_injury_count.csv")
+
+```
+
+```{r}
+## Light~Damage
+df_light_damage = data_q4 |> 
+  select(Vehicle.Damage.Extent, Light) |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
+df_light_damage$Light = as.factor(df_light_damage$Light)
+df_light_damage$Vehicle.Damage.Extent = as.factor(df_light_damage$Vehicle.Damage.Extent) |> 
+  fct_relevel("NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING","DESTROYED")
+level = levels(df_light_damage$Light)
+df_light_damage <- table(df_light_damage$Vehicle.Damage.Extent,
+                         df_light_damage$Light)
+df_light_damage_count <- as.data.frame.matrix(df_light_damage)
+column_sums <- colSums(df_light_damage_count, na.rm = TRUE)
+df_light_damage_count <- rbind(df_light_damage_count, Sum = column_sums)
+df_light_damage_pc <- df_light_damage_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_light_damage_pc[[x]] <- round(df_light_damage_count[[x]] * 2 / sum(df_light_damage_count[[x]]) * 100, digits=1)
+}
+write.csv(df_light_damage_pc, "df_light_damage_pc.csv")
+write.csv(df_light_damage_count, "df_light_damage_count.csv")
+
+## Light~Injury
+df_light_injury = data_q4 |> 
+  select(Injury.Severity, Light)
+df_light_injury$Light = as.factor(df_light_injury$Light)
+df_light_injury$Injury.Severity = as.factor(df_light_injury$Injury.Severity) |>
+  fct_relevel("FATAL INJURY", after = Inf)
+level = levels(df_light_injury$Light)
+df_light_injury <- table(df_light_injury$Injury.Severity,
+                         df_light_injury$Light)
+df_light_injury_count <- as.data.frame.matrix(df_light_injury)
+column_sums <- colSums(df_light_injury_count, na.rm = TRUE)
+df_light_injury_count <- rbind(df_light_injury_count, Sum = column_sums)
+df_light_injury_pc <- df_light_injury_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_light_injury_pc[[x]] <- round(df_light_injury_count[[x]] * 2 / sum(df_light_injury_count[[x]]) * 100, digits=1)
+}
+write.csv(df_light_injury_pc, "df_light_injury_pc.csv")
+write.csv(df_light_injury_count, "df_light_injury_count.csv")
+
+```
+
+```{r}
+## Speed.Limit~Damage
+df_speed_limit_damage = data_q4 |> 
+  select(Vehicle.Damage.Extent, Speed.Limit) |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
+df_speed_limit_damage$Speed.Limit = as.factor(df_speed_limit_damage$Speed.Limit)
+df_speed_limit_damage$Vehicle.Damage.Extent = as.factor(df_speed_limit_damage$Vehicle.Damage.Extent) |> 
+  fct_relevel("NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING","DESTROYED")
+level = levels(df_speed_limit_damage$Speed.Limit)
+df_speed_limit_damage <- table(df_speed_limit_damage$Vehicle.Damage.Extent,
+                         df_speed_limit_damage$Speed.Limit)
+df_speed_limit_damage_count <- as.data.frame.matrix(df_speed_limit_damage)
+column_sums <- colSums(df_speed_limit_damage_count, na.rm = TRUE)
+df_speed_limit_damage_count <- rbind(df_speed_limit_damage_count, Sum = column_sums)
+df_speed_limit_damage_pc <- df_speed_limit_damage_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_speed_limit_damage_pc[[x]] <- round(df_speed_limit_damage_count[[x]] * 2 / sum(df_speed_limit_damage_count[[x]]) * 100, digits=1)
+}
+write.csv(df_speed_limit_damage_pc, "df_speed_limit_damage_pc.csv")
+write.csv(df_speed_limit_damage_count, "df_speed_limit_damage_count.csv")
+
+## Speed.Limit~Injury
+df_speed_limit_injury = data_q4 |> 
+  select(Injury.Severity, Speed.Limit)
+df_speed_limit_injury$Speed.Limit = as.factor(df_speed_limit_injury$Speed.Limit)
+df_speed_limit_injury$Injury.Severity = as.factor(df_speed_limit_injury$Injury.Severity) |>
+  fct_relevel("FATAL INJURY", after = Inf)
+level = levels(df_speed_limit_injury$Speed.Limit)
+df_speed_limit_injury <- table(df_speed_limit_injury$Injury.Severity,
+                         df_speed_limit_injury$Speed.Limit)
+df_speed_limit_injury_count <- as.data.frame.matrix(df_speed_limit_injury)
+column_sums <- colSums(df_speed_limit_injury_count, na.rm = TRUE)
+df_speed_limit_injury_count <- rbind(df_speed_limit_injury_count, Sum = column_sums)
+df_speed_limit_injury_pc <- df_speed_limit_injury_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_speed_limit_injury_pc[[x]] <- round(df_speed_limit_injury_count[[x]] * 2 / sum(df_speed_limit_injury_count[[x]]) * 100, digits=1)
+}
+write.csv(df_speed_limit_injury_pc, "df_speed_limit_injury_pc.csv")
+write.csv(df_speed_limit_injury_count, "df_speed_limit_injury_count.csv")
+
+```
+
+```{r}
+## Surface.Condition~Damage
+df_surface_condition_damage = data_q4 |> 
+  select(Vehicle.Damage.Extent, Surface.Condition) |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
+df_surface_condition_damage$Surface.Condition = as.factor(df_surface_condition_damage$Surface.Condition)
+df_surface_condition_damage$Vehicle.Damage.Extent = as.factor(df_surface_condition_damage$Vehicle.Damage.Extent) |> 
+  fct_relevel("NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING","DESTROYED")
+level = levels(df_surface_condition_damage$Surface.Condition)
+df_surface_condition_damage <- table(df_surface_condition_damage$Vehicle.Damage.Extent,
+                         df_surface_condition_damage$Surface.Condition)
+df_surface_condition_damage_count <- as.data.frame.matrix(df_surface_condition_damage)
+column_sums <- colSums(df_surface_condition_damage_count, na.rm = TRUE)
+df_surface_condition_damage_count <- rbind(df_surface_condition_damage_count, Sum = column_sums)
+df_surface_condition_damage_pc <- df_surface_condition_damage_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_surface_condition_damage_pc[[x]] <- round(df_surface_condition_damage_count[[x]] * 2 / sum(df_surface_condition_damage_count[[x]]) * 100, digits=1)
+}
+write.csv(df_surface_condition_damage_pc, "df_surface_condition_damage_pc.csv")
+write.csv(df_surface_condition_damage_count, "df_surface_condition_damage_count.csv")
+
+## Surface.Condition~Injury
+df_surface_condition_injury = data_q4 |> 
+  select(Injury.Severity, Surface.Condition)
+df_surface_condition_injury$Surface.Condition = as.factor(df_surface_condition_injury$Surface.Condition)
+df_surface_condition_injury$Injury.Severity = as.factor(df_surface_condition_injury$Injury.Severity) |>
+  fct_relevel("FATAL INJURY", after = Inf)
+level = levels(df_surface_condition_injury$Surface.Condition)
+df_surface_condition_injury <- table(df_surface_condition_injury$Injury.Severity,
+                         df_surface_condition_injury$Surface.Condition)
+df_surface_condition_injury_count <- as.data.frame.matrix(df_surface_condition_injury)
+column_sums <- colSums(df_surface_condition_injury_count, na.rm = TRUE)
+df_surface_condition_injury_count <- rbind(df_surface_condition_injury_count, Sum = column_sums)
+df_surface_condition_injury_pc <- df_surface_condition_injury_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_surface_condition_injury_pc[[x]] <- round(df_surface_condition_injury_count[[x]] * 2 / sum(df_surface_condition_injury_count[[x]]) * 100, digits=1)
+}
+write.csv(df_surface_condition_injury_pc, "df_surface_condition_injury_pc.csv")
+write.csv(df_surface_condition_injury_count, "df_surface_condition_injury_count.csv")
+
+```
+
+```{r}
+## Traffic.Control~Damage
+df_traffic_control_damage = data_q4 |> 
+  select(Vehicle.Damage.Extent, Traffic.Control) |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
+df_traffic_control_damage$Traffic.Control = as.factor(df_traffic_control_damage$Traffic.Control)
+df_traffic_control_damage$Vehicle.Damage.Extent = as.factor(df_traffic_control_damage$Vehicle.Damage.Extent) |> 
+  fct_relevel("NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING","DESTROYED")
+level = levels(df_traffic_control_damage$Traffic.Control)
+df_traffic_control_damage <- table(df_traffic_control_damage$Vehicle.Damage.Extent,
+                         df_traffic_control_damage$Traffic.Control)
+df_traffic_control_damage_count <- as.data.frame.matrix(df_traffic_control_damage)
+column_sums <- colSums(df_traffic_control_damage_count, na.rm = TRUE)
+df_traffic_control_damage_count <- rbind(df_traffic_control_damage_count, Sum = column_sums)
+df_traffic_control_damage_pc <- df_traffic_control_damage_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_traffic_control_damage_pc[[x]] <- round(df_traffic_control_damage_count[[x]] * 2 / sum(df_traffic_control_damage_count[[x]]) * 100, digits=1)
+}
+write.csv(df_traffic_control_damage_pc, "df_traffic_control_damage_pc.csv")
+write.csv(df_traffic_control_damage_count, "df_traffic_control_damage_count.csv")
+
+## Traffic.Control~Injury
+df_traffic_control_injury = data_q4 |> 
+  select(Injury.Severity, Traffic.Control)
+df_traffic_control_injury$Traffic.Control = as.factor(df_traffic_control_injury$Traffic.Control)
+df_traffic_control_injury$Injury.Severity = as.factor(df_traffic_control_injury$Injury.Severity) |>
+  fct_relevel("FATAL INJURY", after = Inf)
+level = levels(df_traffic_control_injury$Traffic.Control)
+df_traffic_control_injury <- table(df_traffic_control_injury$Injury.Severity,
+                         df_traffic_control_injury$Traffic.Control)
+df_traffic_control_injury_count <- as.data.frame.matrix(df_traffic_control_injury)
+column_sums <- colSums(df_traffic_control_injury_count, na.rm = TRUE)
+df_traffic_control_injury_count <- rbind(df_traffic_control_injury_count, Sum = column_sums)
+df_traffic_control_injury_pc <- df_traffic_control_injury_count
+for (i in 1:length(level)) {
+  x = level[i]
+  df_traffic_control_injury_pc[[x]] <- round(df_traffic_control_injury_count[[x]] * 2 / sum(df_traffic_control_injury_count[[x]]) * 100, digits=1)
+}
+write.csv(df_traffic_control_injury_pc, "df_traffic_control_injury_pc.csv")
+write.csv(df_traffic_control_injury_count, "df_traffic_control_injury_count.csv")
+
+```
