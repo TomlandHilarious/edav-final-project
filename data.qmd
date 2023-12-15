@@ -17,7 +17,7 @@ However, a known issue regarding the dataset is that it also contains unverified
 
 To import the dataset into an R environment for analysis, we will use the following R script:
 
-```{r}
+```{r, echo=FALSE}
 data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",",na.strings=c("","N/A"))
 t(head(data,1))
 ```
@@ -34,9 +34,9 @@ As mentioned in the Introduction Chapter, we plan to investigate five questions 
 
 3.  **Collision Causes**: We plan to use variables such as 'Driver Substance Abuse', 'Driver Distracted By', 'Vehicle Movement', and 'Equipment Problems' to understand the common causes of collisions and the severity of the collisions.
 
-4.  **Impact of Weather and Road Conditions**: The influence of external conditions on traffic accidents can be assessed using variables like 'Weather', 'Surface Condition', 'Light', 'Traffic Control', and 'Speed Limit'. We could associate these factors with the injury severity and vehicle damage extent.
+4.  **Environmental Impact**: The influence of external conditions on traffic accidents can be assessed using variables like 'Weather', 'Surface Condition', 'Light', 'Traffic Control', and 'Speed Limit'. We could associate these factors with the injury severity and vehicle damage extent.
 
-5.  **Vehicle Types Involved**: To determine if certain types of vehicles are more frequently involved in accidents, we will use the 'Vehicle Body Type', 'Vehicle Year', and 'Vehicle Make' variables. These variables could assist us in understanding the vehicle damage extent.
+5.  **Vehicle Condition**: To determine if certain types of vehicles are more frequently involved in accidents, we will use the 'Vehicle Body Type', 'Vehicle Year', and 'Vehicle Make' variables. These variables could assist us in understanding the vehicle damage extent.
 
 A structured table of the research plan is shown as below:
 
@@ -44,12 +44,12 @@ A structured table of the research plan is shown as below:
 |------------------|------------------|-------------------|------------------|
 | 1   | Accident Hotspots                     | Route Type, Cross-Street Type                                                      | N/A                                    |
 | 2   | Time Patterns                         | Crash Date/Time                                                                    | N/A                                    |
-| 3   | Collision Causes                      | Driver Substance Abuse, Driver Distracted By, Vehicle Movement, Equipment Problems | Injury Severity, Vehicle Damage Extent |
-| 4   | Impact of Weather and Road Conditions | Weather, Surface Condition, Light, Traffic Control, Speed Limit                    | Injury Severity, Vehicle Damage Extent |
-| 5   | Vehicle Types Involved                | Vehicle Body Type, Vehicle Year, Vehicle Make                                      | Vehicle Damage Extent                  |
+| 3   | Collision Causes                      | Driver Substance Abuse, Driver Distracted By, Vehicle Movement, Equipment Problems | Vehicle Damage Extent |
+| 4   | Environmental Impact | Weather, Surface Condition, Light, Traffic Control, Speed Limit                    | Injury Severity, Vehicle Damage Extent |
+| 5   | Vehicle Condition               | Vehicle Year, Vehicle Make                                      | Vehicle Damage Extent                  |
 
 ## Missing value analysis
-```{r}
+```{r, echo=FALSE}
 library(ggplot2)
 library(dplyr)
 library(redav)
@@ -88,7 +88,7 @@ C. Variables that are not directly related to our research questions, such as *V
 
 To analyze and interpret missing values, we will employ bar charts to visualize the percentage of missing data and use the 'plot missing' function to identify any discernible patterns in the missing values.
 
-```{r}
+```{r, echo=FALSE}
 # refine dataset
 columns = c("Crash.Date.Time", "Route.Type", "Cross.Street.Type",
                   "Weather", "Surface.Condition", "Light", 
@@ -122,7 +122,7 @@ ggplot(missing_data_df, aes(x = reorder(Column, NAs), y = NAs)) +
 From the bar chart, it is evident that all the variables of interest have less than 20% missing values. Notably, *Equipment.Problems* and *Driver.Substance.Abuse* exhibit relatively higher percentages of missing values, each exceeding 15%. The majority of the variables demonstrate relatively complete data values.
 
 To enhance our visual analysis of the missing value patterns, we have selected a random subset of 500 rows and used numerical value to map the name of variables. This sample will help us more clearly discern any underlying trends in the missing value.
-```{r, fig.width=10, fig.height=8}
+```{r, fig.width=10, fig.height=8, echo=FALSE}
 column_mapping <- setNames(seq_along(columns), columns)
 names(data_refined) <- column_mapping[names(data_refined)]
 sampled_data <- sample_n(data_refined, 500)
