@@ -45,8 +45,8 @@ A structured table of the research plan is shown as below:
 | 1   | Accident Hotspots                     | Route Type, Cross-Street Type                                                      | N/A                                    |
 | 2   | Time Patterns                         | Crash Date/Time                                                                    | N/A                                    |
 | 3   | Collision Causes                      | Driver Substance Abuse, Driver Distracted By, Vehicle Movement, Equipment Problems | Vehicle Damage Extent |
-| 4   | Environmental Impact | Weather, Surface Condition, Light, Traffic Control, Speed Limit                    | Injury Severity, Vehicle Damage Extent |
-| 5   | Vehicle Condition               | Vehicle Year, Vehicle Make                                      | Vehicle Damage Extent                  |
+| 4   | Environmental Impacts | Weather, Surface Condition, Light, Traffic Control, Speed Limit                    | Injury Severity, Vehicle Damage Extent |
+| 5   | Vehicle Conditions               | Vehicle Year, Vehicle Make                                      | Vehicle Damage Extent                  |
 
 ## Missing value analysis
 ```{r, echo=FALSE}

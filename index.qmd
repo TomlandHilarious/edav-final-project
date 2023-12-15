@@ -14,7 +14,7 @@ In this study, we aim to analyze a dataset encompassing various facets of car cr
 
 3. **Collision Causes**: What are the most common causes of collisions reported in the dataset? Understanding the primary causes (e.g., speeding, distracted driving, mechanical failures) can inform preventive measures.
 
-4. **Impact of Weather and Road Conditions**: How do different weather conditions or road environments affect the frequency and severity of accidents? This can help in preventing adverse weather conditions and improving road maintenance.
+4. **Environmental Impacts**: How do different weather conditions or road environments affect the frequency and severity of accidents? This can help in preventing adverse weather conditions and improving road maintenance.
 
-5. **Vehicle Types Involved**: Are certain types of vehicles (e.g., passenger cars, trucks) more frequently involved in accidents? This can guide regulations and safety measures for different vehicle categories.
+5. **Vehicle Conditions**: Are certain types of vehicles (e.g., passenger cars, trucks) more frequently involved in accidents? This can guide regulations and safety measures for different vehicle categories.
 
