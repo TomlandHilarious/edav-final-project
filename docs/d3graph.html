@@ -170,36 +170,51 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>
-<p>
-This interactive section is mainly for readers to explore our results to Q4.
-</p>
+<h1>
+Traffic Collision Situation on Different Environmental Conditions
+</h1>
+<h4 class="anchored">
+“customize environment conditions and compare them!”
+</h4>
+<h5 class="anchored">
+Steps:
+</h5>
 <p>
 </p><ol type="1">
-<li>Start by choosing your independent variable from the dropdown menu. You can select from options such as “Weather,” “Speed Limit,” “Surface Condition,” “Light,” and “Traffic Control.” Next, select your dependent variable. Options include “Injury Severity” and “Vehicle Damage Extent.”<br>
-</li>
+<li>Choose the type of environment condition you are interested in on Independent Variable dropdown button. (You can select from Weather, Speed Limit, Surface Condition, Light and Traffic Control)</li>
 </ol>
 <p></p>
 <p>
 </p><ol start="2" type="1">
-<li>After selecting your variables, the webpage generates two bar graphs. The top graph illustrates the distribution of the chosen dependent variable by the first level of your independent variable. Simultaneously, the bottom graph shows the distribution by the second level of your independent variable.</li>
+<li>Choose the type of collision situation. (You can select from Injury Severity and Vehicle Damage Extent)</li>
 </ol>
 <p></p>
 <p>
 </p><ol start="3" type="1">
-<li>Each bar on the graphs represents a specific category within the chosen independent variable. Hover over a bar to view detailed information about that category. Choose variables and levels of your interest to explore our results!</li>
+<li>Select the two levels of the environment condition you want to compare on level 1 and level 2.</li>
+</ol>
+<p></p>
+<p>
+</p><ol start="4" type="1">
+<li>Hover over a bar to view detailed information about percentage of collision severity at that level.</li>
+</ol>
+<p></p>
+<p>
+</p><ol start="5" type="1">
+<li>Choose other variables and levels of your interest to explore our results!</li>
 </ol>
 <p></p>
 <div>
-<p><label>Independent Variable:</label> <select id="independentDropdown"> <option value="Weather">Weather</option> <option value="Surface.Condition">Surface Condition</option> <option value="Light">Light</option> <option value="Traffic.Control">Traffic Control</option> <option value="Speed.Limit">Speed Limit</option> </select></p>
+<p><label style="color: darkblue; font-weight: bold; font-size: 12;">Independent Variable:</label> <select id="independentDropdown"> <option value="Weather">Weather</option> <option value="Surface.Condition">Surface Condition</option> <option value="Light">Light</option> <option value="Traffic.Control">Traffic Control</option> <option value="Speed.Limit">Speed Limit</option> </select></p>
 </div>
 <div>
-<p><label>Dependent Variable:</label> <select id="dependentDropdown"> <option value="Injury.Severity">Injury Severity</option> <option value="Vehicle.Damage.Extent">Vehicle Damage Extent</option> </select></p>
+<p><label style="color: darkblue; font-weight: bold; font-size: 12;">Dependent Variable:</label> <select id="dependentDropdown"> <option value="Injury.Severity">Injury Severity</option> <option value="Vehicle.Damage.Extent">Vehicle Damage Extent</option> </select></p>
 </div>
 <div>
-<label>Chosen Independent Variable Level 1:</label> <select id="chosenindependent"> <option>NONE</option> </select>
+<label style="color: darkblue; font-weight: bold; font-size: 12;">Chosen Level 1:</label> <select id="chosenindependent"> <option>NONE</option> </select>
 </div>
 <div>
-<p><label>Chosen Inependent Variable Level 2:</label> <select id="chosendependent"> <option>NONE</option> </select></p>
+<p><label style="color: darkblue; font-weight: bold; font-size: 12;">Chosen Level 2:</label> <select id="chosendependent"> <option>NONE</option> </select></p>
 </div>
 <div id="leftGraph">
 
@@ -207,6 +222,24 @@ This interactive section is mainly for readers to explore our results to Q4.
 <div id="rightGraph">
 
 </div>
+<h5 class="anchored">
+Remember:
+</h5>
+<p>
+</p><ul>
+<li>The top graph refers to the distribution of the collision situation for environment condition level 1; the bottom graph refers to the distribution of the collision situation for environment condition level 2.</li>
+</ul>
+<p></p>
+<p>
+</p><ul>
+<li>“Total Count” in top right corner is represent the total traffic collision in Montgomery County from 2015 to 2023.</li>
+</ul>
+<p></p>
+<p>
+</p><ul>
+<li>Everytime you change the collision situation, re-select the levels you are interested.</li>
+</ul>
+<p></p>
 
 
 

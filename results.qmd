@@ -4,7 +4,7 @@
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
-```{r}
+```{r, echo=FALSE}
 library(dplyr)
 library(ggplot2)
 library(forcats)
@@ -12,6 +12,7 @@ library(tidyr)
 library(lubridate)
 library(stringr)
 library(RColorBrewer)
+library(vcd)
 
 data <- read.csv("data/Crash_Reporting_-_Drivers_Data.csv", header = TRUE, sep=",",na.strings=c("","N/A"))
 data_q1 = data |> select(Route.Type,Cross.Street.Type)
@@ -27,8 +28,8 @@ data_q5 = data |> select(Vehicle.Body.Type,Vehicle.Year,
 ```
 
 ## Accident Hotspots
-The bar graph presents data on the number of traffic collision categorized by route and cross street types from 2015 to 2023 in Montgomery County. 
-```{r}
+To discover the spatial dynamics of traffic collisions, our analysis aims to identify routes characterized by a higher incidence of accidents. The bar graph presents data on the number of traffic collisions categorized by route and cross street types from 2015 to 2023 in Montgomery County. 
+```{r, echo=FALSE}
 # Change Variables as factors
 data_q1$Route.Type =  as.factor(data_q1$Route.Type) |> 
   fct_explicit_na("NA")
@@ -64,9 +65,10 @@ ggplot(data_q1,aes(y = fct_relevel(fct_rev(fct_infreq(value)),
   theme_light(13) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
-The most notable finding is that County roads and Maryland State roads are the top two highest number of crashes for both route types and cross street types. For other categories such as Municipality, US (State), and Interstate (State), the number of crashes is relatively lower, with cross street types consistently recording fewer incidents than route types. Ramp, Other Public Roadway, Government, Service Road, and NA categories have the fewest crashes.
 
-However, the graph doesn't provide the information that County roads and Maryland State roads are the most dangerous among all types. Since we collect the data in a county in Maryland state, the percentage of County and Maryland State roads are higher. More information is needed to determine the accident hotspot.
+From the graph, we observe that County roads and Maryland State roads stand out with the highest number of crashes, both as route types and at cross street intersections. In contrast, areas like US (State), and Interstate (State) show fewer crashes, with incidents at cross streets consistently lower than those on the routes themselves. The categories of Ramp, Other Public Roadway, Government, and Service Road represent the safest zones with the least number of crashes.
+
+Yet, this doesn't necessarily mean that County roads and Maryland State roads are the most hazardous. It's important to consider that this data is from a specific county in Maryland, skewing the numbers towards these road types. To identify the riskiest areas, additional information and context are needed. This intriguing snapshot invites us to look deeper and question what truly makes a road dangerous.
 
 ## Time Patterns
 Understanding the temporal patterns of road traffic accidents is crucial for developing effective safety measures and policies. By analyzing the frequency of crashes across different times of the day and week, researchers and policymakers can identify high-risk periods and underlying factors that contribute to these patterns. 
@@ -76,7 +78,7 @@ We will analysis the yearly, monthly, weekly and hourly traffic collision patter
 ### Yearly & Seasonal Patterns
 The line graph below presents a detailed temporal analysis of traffic collision from 2015 to 2023, revealing several critical patterns within the data. 
 
-```{r, fig.width=12, fig.height=8}
+```{r, fig.width=12, fig.height=8, echo=FALSE}
 data_q2$Crash.Date.Time = mdy_hms(data_q2$Crash.Date.Time)
 data_q2$Year = as.factor(year(data_q2$Crash.Date.Time))
 data_q2$Month = as.factor(months(data_q2$Crash.Date.Time)) |> 
@@ -132,13 +134,13 @@ ggplot(data_q2,aes(Month)) +
   scale_x_discrete(labels = function(x) str_sub(x, 1, 3))
 ```
 
-Significantly, there is a **conspicuous decline in the number of crashes during the year 2020**. This aberration corresponds with the global onset of the COVID-19 pandemic, a period characterized by lockdowns and widespread restrictions on movement. The resulting reduction in road traffic during this time is likely the primary driver behind the observed decrease in crashes, as stay-at-home orders and the transition to remote work reduced the frequency of commuting and non-essential travel.
+Significantly, there is a **decline in the number of crashes during the year 2020**. This aberration corresponds with the global onset of the COVID-19 pandemic, a period characterized by lockdowns and widespread restrictions on movement. The resulting reduction in road traffic during this time is likely the primary driver behind the observed decrease in crashes, as stay-at-home orders and the transition to remote work reduced the frequency of commuting and non-essential travel.
 
 Moreover, the graph illustrates **recurrent peaks in the number of crashes during the months of May and October** across multiple years. The reasons behind these spikes may be multifaceted. In May, increased travel due to warmer weather and social events, such as Memorial Day weekend in the United States, could contribute to higher traffic volumes and consequently, a greater incidence of crashes. October's peak might be influenced by a combination of factors, including the end of summer vacations, the resumption of the school year, and potentially more challenging driving conditions due to seasonal weather changes, such as reduced daylight and falling leaves, which can affect road visibility and traction. These observations suggest that there are underlying seasonal behaviors and external events that significantly influence the rate of traffic incidents.
 
 ### Weekly & Time Patterns
 
-```{r, fig.width=12, fig.height=8}
+```{r, fig.width=12, fig.height=8, echo=FALSE}
 ggplot(data_q2, aes(Hours)) +
   geom_point(stat = "count") + 
   geom_density(aes(group = 1), stat = "count", color = "cornflowerblue") +
@@ -168,9 +170,9 @@ Intriguingly, there are two **distinct peaks that occur around 8 AM and 5 PM on 
 |----------|----------|----------|----------|
 | 71.19%  | 3.64%  | 25.17%  |
 
-Driver substance abuse stands as one potential causes of traffic collision. The table above indicates that in majority crash cases, no substances were detected in drivers involved in accidents. There is only a notable minority of cases that substance abuse was confirmed. We will analysis more on the detected substance abuse cases in following stacked bar graph:
+Driver substance abuse stands as one potential causes of traffic collision. The table above indicates that in majority crash cases, no substances were detected from drivers that involved in accidents. There is only a notable minority of cases that substance abuse was confirmed. We will analysis more on the detected substance abuse cases in following stacked bar graph:
 
-```{r}
+```{r, echo=FALSE}
 # Data Preprocessing
 data_q3$Driver.Substance.Abuse = as.factor(data_q3$Driver.Substance.Abuse) |> 
   fct_explicit_na("NA")
@@ -216,25 +218,25 @@ ggplot(data, aes(substance, count, fill = category)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-The four main categories of substance that detected from driver in traffic collision but not allowed are alcohol, illegal drugs, medications that impair driving ability and a combination of these substances. 
+The four main categories of substance that detected from driver in traffic collision but prohibit are alcohol, illegal drugs, medications that impair driving ability and a combination of these substances. 
 
-In each categories, **"Contributed"** refers to instances where the substance present was deemed to have actively contributed to the cause of the crash, suggesting a direct link between impairment and the accident; **"Present"**, on the other hand, indicates cases where the substance was detected, but without a definitive contribution to the crash established.
+In each categories, **"Contributed"** refers to instances where the substance present and contributed to the cause of the crash, suggesting a direct link between impairment and the accident; **"Present"**, on the other hand, indicates cases where the substance was detected, but without a definitive contribution to the crash established.
 
-Upon examining the graph, it becomes evident that **alcohol is the most commonly detected substance in traffic crashes**, dominating the data in terms of both presence and contribution to accidents. Across all substance categories, including alcohol, drugs, medication, and combinations, the 'Contributed' figures—representing cases where the substance directly caused the crash—constitute roughly **one-third** of the instances where the substance was present. This ratio is consistent across all categories, indicating a significant direct impact of these substances on traffic safety. This underscores the critical need for robust preventive measures and strict enforcement of laws against driving under the influence of any impairing substances.
+The graph clearly indicates that **alcohol is the most commonly detected substance in traffic crashes**, in both present and contributed categories. Also, across all substance categories, the 'Contributed' cases where the substance directly caused the crash roughly **one-third** of the all cases of that substance category. This ratio is consistent across all categories, indicating a significant direct impact of these substances on traffic safety. This underscores the critical need for robust preventive measures and strict enforcement of laws against driving under the influence of any impairing substances.
 
 ### Driver Distraction
 
-Driver distraction is recognized as another common cause of traffic collisions, often with dire consequences. Distraction comes in various forms and can be categorized as internal or external, based on the origin of the distraction. Internal distractions are those within the vehicle and include actions such as talking or listening to a cellular phone, texting, eating, or adjusting the vehicle's controls. External distractions, by contrast, are outside the vehicle and can involve being distracted by external events, objects, or the actions of other people.
+Driver distraction is recognized as another common cause of traffic collisions. Distraction comes in various forms and can be categorized as internal or external, based on the origin of the distraction. Internal distractions are those within the vehicle and include actions such as talking or listening to a cellular phone, texting, eating, or adjusting the vehicle's controls. External distractions, by contrast, are outside the vehicle and can involve being distracted by external events, objects, or the actions of other people.
 
 **Table 2: Percentage of Traffic Collision Involved Driver Distraction**
 
-| Not Distracted or Unknown | Inattention | Internal Distraction | External Distraction | Other |
+| Not Distracted | Inattention | Internal Distraction | External Distraction | Other |
 |----------|----------|----------|----------|----------|
-| 81.10%  | 15.00%  | 1.30%  | 0.55%  |2.05%  |
+| 62.07%  | 15.00%  | 1.30%  | 0.55%  |21.08%  |
 
 According to the provided data in Table 2, 15% of traffic collision are involved in driver's inattention, which include driver "looking but did not see" or "inattentive or lost in thought". Internal distractions and external distraction  only make up around 1.8% of collisions.
 
-```{r, fig.width=8, fig.height=5}
+```{r, fig.width=8, fig.height=5, echo=FALSE}
 data2 = group_by(data_q3,Driver.Distracted.By) |> 
   summarise(count = sum(crashes)) |> 
   mutate(Driver.Distracted.By = reorder(Driver.Distracted.By, count))
@@ -277,12 +279,10 @@ data2 |>
          title = "Percentage of Crashes Caused by Internal Distraction")
 ```
 
-The accompanying graph further breaks down internal distractions, highlighting the most frequent activity that lead to crashes is other occupants in vehicle.
+The accompanying graph further breaks down internal distractions, highlighting the most frequent activity that lead to crashes is other occupants in vehicle. To alleviate the potential hazards associated with internal distractions, it is recommended that drivers limit engagement in activities with other occupants in the vehicle and refrain from using mobile phones while driving. 
 
-To mitigate the risks of internal distractions, drivers are advised to minimize activities with other occupants in vehicle and the use of mobile phones while driving. Hands-free and voice-operated technologies can be beneficial, but their use should not overly divert attention from the road. The data calls for increased awareness and stronger adherence to road safety regulations, emphasizing the need to stay focused and avoid multi-tasking while behind the wheel.
-
-### Equipment Problems
-```{r}
+### Vehicle Equipment Problems
+```{r, echo=FALSE}
 data3 = group_by(data_q3,Equipment.Problems) |> 
   summarise(count = sum(crashes)) |> 
   mutate(Equipment.Problems = reorder(Equipment.Problems, count))
@@ -290,12 +290,28 @@ data3$percentage = data3$count/sum(data2$count)*100
 # ggplot(data3, aes(percentage, Equipment.Problems)) +
 #   geom_bar(stat = "identity", fill = "lightblue")
 ```
-| No Misuse | Misuse | Unknown |
+**Table 3: Percentage of Traffic Collision Caused by Vehicle Equipment Problem**
+
+| No Equipment Problem Detected | Equipment Problem/Misuse | Unknown |
 |----------|----------|----------|
 | 71.67% | 0.21%  | 28.12%  |
 
+From table 3, only 0.21% of crashes are caused by problem/misuse of vehicle equipment such as "start/tether loose", "belt(s) misused" or "belts/anchors broke". This **low percentage in equipment problem/misuse suggests overall good quality on vehicle equipment safety** but regular maintenance is still necessary to prevent the possible equipment problem listed above.
+
 ### Vehicle Movement
-```{r, fig.width=10, fig.height=10}
+
+Lastly, to understand the status of the vehicle in the traffic collision, we classified the vehicle movement into following categories: 
+
+| Category | Description |
+|----------|----------|
+| In Motion | Vehicle is accelerating, moving in a constant speed or negotiating a curve driving |
+| Turning | Vehicle is making a left, right, U turn or changing lanes |
+| Starting | Vehicle is starting from lane or from park |
+| Traffic | Vehicle is entering or leaving the traffic lane |
+| Stationary | Vehicle parked, is parking or stopped in traffic lane |
+| Maneuvering | Vehicle is passing, skidding, slowing or stopping |
+
+```{r, fig.width=12, fig.height=8, echo=FALSE}
 data4 = data_q3 |> 
   select(Vehicle.Movement, Injury.Severity, Vehicle.Damage.Extent)
 data4$crashes = 1
@@ -311,12 +327,11 @@ data4 = data4 %>%
       "Starting",
     Vehicle.Movement %in% c("BACKING", "ENTERING TRAFFIC LANE", 
                             "LEAVING TRAFFIC LANE") ~ 
-      "Traffic Related",
+      "Traffic",
     Vehicle.Movement %in% c("PARKED", "PARKING", "STOPPED IN TRAFFIC LANE") ~
       "Stationary",
     Vehicle.Movement %in% c("PASSING", "SKIDDING", "SLOWING OR STOPPING") ~
       "Maneuvering",
-    Vehicle.Movement %in% c("DRIVERLESS MOVING VEH.") ~ "Driverless",
     Vehicle.Movement == "UNKNOWN" | Vehicle.Movement == "NA" ~ "Unknown",
     TRUE ~ "Other"
   ))
@@ -331,15 +346,15 @@ data4$Movement_Category = as.factor(data4$Movement_Category) |>
 data4_filtered <- data4 %>%
   filter(!Movement_Category %in% c("Unknown", "Other","Driverless")) |> 
   filter(Vehicle.Damage.Extent %in% c("DESTROYED", "DISABLING", "FUNCTIONAL",
-                                      "NO DAMAGE", "SUPERFICIAL"))
+                                      "SUPERFICIAL", "NO DAMAGE"))
 mosaicplot(droplevels(Movement_Category) ~
-             droplevels(fct_rev(Vehicle.Damage.Extent)),
+             droplevels(fct_rev(fct_relevel(Vehicle.Damage.Extent, "DESTROYED", "DISABLING", "FUNCTIONAL", "SUPERFICIAL", "NO DAMAGE"))),
            dir =c('v', 'h'),
            color = brewer.pal(n = 5, name = "Blues"),
            main = "Vehicle Momement vs. Vehicle Damage Extent",
            xlab = "Vehicle Movement", 
            ylab = "Damage Level",
-           data4_filtered) 
+           data4_filtered)
 # mosaicplot(droplevels(Movement_Category) ~
 #              droplevels(fct_relevel(Injury.Severity, "FATAL INJURY", after = Inf)),
 #            dir =c('v', 'h'),
@@ -348,14 +363,23 @@ mosaicplot(droplevels(Movement_Category) ~
 #            xlab = "Vehicle Movement", 
 #            ylab = "Injury Severity Level",
 #            data4_filtered) 
+
+X <- xtabs(~ Vehicle.Damage.Extent + Vehicle.Movement, data = data_q3)
 ```
 
-## Q4
+In the mosaic plot analysis, a strong association emerges between "Vehicle Movement" and "Vehicle Damage Extent", with chi-square value equals to zero.  Notably, the darkest blue part, indicates the vehicle are destroyed after collision, reveals a highest proportion in state of motion among all 6 movement categories. This observation highlighted **vehicles in motion has the highest possibility has severe damage during collisions**. In contrast, the analysis underscores a minimal proportion of superficial damage occurring when vehicle in motion.
 
-```{r, fig.width=12, fig.height=7}
-library(vcd)
-library(dplyr)
-library(RColorBrewer)
+Remarkably, the second-highest incidence of substantial damage manifests in instances where vehicles are engaged in turning maneuvers, which also should be pay attention during driving.
+
+## Environmental Impact
+
+In this section, we'll use two tools to explore how multiple variables interact and potentially influence each other. First, we have mosaic plots, which are great for visually showing relationships between categories. They help us see if different factors are linked. In a perfect world where these factors don't affect each other, the mosaic plot would show even cuts across each category. Second, we'll use the chi-square test, a statistical method that checks if these variables are independent of each other. Together, these tools will give us a clearer picture of the complex relationships between multiple variables.
+
+### Weather Condition and Surface Condition
+
+For better visualization purposes,, we categorize weather conditions into two groups for simplicity: 'adverse' weather (including conditions like foggy and snowy) and 'clear' weather (which combines both cloudy and clear skies). Similarly, we classify road surface conditions into four main categories including dry, snow/ice, wet, and others, and ignoring others due to its small frequency on the final graph.
+
+```{r, fig.width=12, fig.height=8, echo=FALSE}
 
 # Since OTHER and UNKNOWN do not provide information of interest for our questions, we drop these two levels from
 # our analysis for Vehile damage extent
@@ -373,10 +397,11 @@ data_q4_regrouped <- data_q4 %>%
       TRUE ~ Surface.Condition 
     )
   ) 
-data_q4_regrouped$Vehicle.Damage.Extent <- factor(data_q4_regrouped$Vehicle.Damage.Extent, 
-                                                   levels = c("UNKNOWN","OTHER", "NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING", "DESTROYED"))
-data_q4_filtered <- data_q4_regrouped %>%
-  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
+data_q4_regrouped$Vehicle.Damage.Extent <- factor(data_q4_regrouped$Vehicle.Damage.Extent, levels = c("UNKNOWN","OTHER", "NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING", "DESTROYED"))
+data_q4_filtered <- data_q4_regrouped |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER")) |> 
+  filter(!Surface.Condition %in% c("OTHERS"))
+
 data_q4_filtered$Vehicle.Damage.Extent <- droplevels(data_q4_filtered$Vehicle.Damage.Extent)
 # mosaic(Vehicle.Damage.Extent ~ Surface.Condition,
 #       rot_labels=c(45, 0),
@@ -389,39 +414,43 @@ data_q4_filtered$Vehicle.Damage.Extent <- droplevels(data_q4_filtered$Vehicle.Da
 #       data_q4_filtered
 #       )
 mosaic(Vehicle.Damage.Extent ~  Weather + Surface.Condition,
-      rot_labels=c(0, 45, 45, 45),
+      rot_labels=c(0, 0, 30, 75),
+      highlighting_fill = brewer.pal(n = 5, name = "Blues"),
       direction =c('v', 'v', 'h'),
-      data_q4_filtered
+      data_q4_filtered,
+      main = "Vehicle Damage Extent vs. Weather and Surface Condition "
       ) 
+
 ```
+The mosaic plot reveals some clear patterns: In both clear and adverse weather conditions, wet road surfaces are associated with a higher proportion of severe, disabling car crashes compared to dry surfaces. Interestingly, under clear weather, roads with snow or ice have the highest proportion of severe crashes. However, in adverse weather conditions, it's somewhat counterintuitive to find that more severe crashes occur on dry surfaces rather than on snow or ice. **The most concerning observation is that the combination of adverse weather and wet roads leads to the highest severity in vehicle damage compared to all other weather and road surface combinations. **
 
+### Speed Limit
+Let's take a closer look at another crucial factor: the speed limit, and its relationship with the severity of vehicle damage. For simplicity, we've grouped all speed limits of 55 mph and above into a single category labeled 55+, due to their relatively small numbers in the data. 
 
-```{r, fig.width=13, fig.height=7}
+```{r, fig.width=12, fig.height=8, echo=FALSE}
 # top coding, group 55 and 55+ together due to small number for 60, 65, 70, 75
 data_q4_speed <- data_q4 %>%
   mutate(
     Speed.Limit = case_when(
       Speed.Limit >= 55 ~ "55+",
-      TRUE ~  as.character(Speed.Limit)
-    ),
-  ) 
+      TRUE ~  as.character(Speed.Limit)),) 
 data_q4_speed$Vehicle.Damage.Extent <- factor(data_q4_speed$Vehicle.Damage.Extent, 
                                                    levels = c("UNKNOWN","OTHER", "NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING", "DESTROYED"))
 data_q4_speed$Speed.Limit <- factor(data_q4_speed$Speed.Limit,
                                     levels = c("0", "5", "10", "15", "20", "25", "30", "35",
                                                "40", "45", "50", "55+"))
 data_q4_speed$Injury.Severity <- factor(data_q4_speed$Injury.Severity, 
-                                                   levels = c("NO APPARENT INJURY", "POSSIBLE INJURY",
-                                                              "SUSPECTED MINOR INJURY", 
-                                                              "SUSPECTED SERIOUS INJURY", "FATAL INJURY"))
+                                        levels = c("NO APPARENT INJURY", "POSSIBLE INJURY", "SUSPECTED MINOR INJURY", "SUSPECTED SERIOUS INJURY", "FATAL INJURY"))
 data_q4_filtered <- data_q4_speed %>%
   filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER"))
 data_q4_filtered$Vehicle.Damage.Extent <- droplevels(data_q4_filtered$Vehicle.Damage.Extent)
 # speed-limit with vehicle damage extent
 mosaic(Vehicle.Damage.Extent ~ Speed.Limit,
-      rot_labels=c(45, 0),
+      rot_labels=c(30, 75),
       direction =c('v','h'),
-      data_q4_filtered
+      highlighting_fill = brewer.pal(n = 5, name = "Blues"),
+      data_q4_filtered,
+      main = "Vehicle Speed Limit vs. Vehicle Damage Extent"
       )
 # speed-limit with injury-severity
 # mosaic(Injury.Severity ~ Speed.Limit,
@@ -431,10 +460,12 @@ mosaic(Vehicle.Damage.Extent ~ Speed.Limit,
 
 ```
 
+Our mosaic plot shows a noticeable trend: as the speed limit increases, so does the severity of car crashes, including those resulting in disabling damage or completely destroyed vehicles. Interestingly, both the highest proportion of disabling and destroyed car crashes occur at a speed limit of 50 mph. On the other end of the spectrum, at a speed limit of just 5 mph, there's a significantly higher proportion of car crashes where the vehicles escape without any damage. **This observation suggests a clear link between higher speed limits and more severe vehicle damage in crashes.**
 
+### Light Condition and Traffic Control
+Next, we'll examine a heatmap that looks at the interplay between light conditions and traffic control in car crashes. This heatmap is laid out so that each column corresponds to a fixed light condition, while each row represents a different traffic control scenario, while faceted with different levels of injury.
 
-
-```{r, fig.width=13,fig.height=7}
+```{r, fig.width=12, fig.height=8, echo=FALSE, echo=FALSE}
 theme_heat <- theme_classic() +
   theme(axis.line = element_blank(),
         axis.ticks = element_blank(),
@@ -442,8 +473,7 @@ theme_heat <- theme_classic() +
         strip.text = element_text(size = 8),
         plot.title = element_text(hjust = 0.5)
         )
-lighting_order <- c("DAWN", "DAYLIGHT", "DUSK", "DARK LIGHTS ON", "DARK -- UNKNOWN LIGHTING", 
-                  "DARK NO LIGHTS", "OTHER", "UNKNOWN")
+lighting_order <- c("DAWN", "DAYLIGHT", "DUSK", "DARK LIGHTS ON", "DARK -- UNKNOWN LIGHTING", "DARK NO LIGHTS", "OTHER", "UNKNOWN")
 injury_order <- rev(c("NO APPARENT INJURY", "POSSIBLE INJURY", "SUSPECTED MINOR INJURY", "SUSPECTED SERIOUS INJURY", "FATAL INJURY"))
 mydata <- data_q4 %>%
   filter(!is.na(Speed.Limit) & !is.na(Traffic.Control) & !is.na(Injury.Severity)) %>%
@@ -455,6 +485,9 @@ mydata$Light <- factor(mydata$Light, levels=lighting_order)
 mydata$Injury.Severity <- factor(mydata$Injury.Severity, levels=injury_order)
 mydata3 <- mydata |> group_by(Injury.Severity, Light) |> 
   mutate(Total = sum(Frequency)) |> ungroup()
+mydata3 = mydata3 |> 
+  filter(!Traffic.Control %in% c("UNKNOWN")) |> 
+  filter(!Light %in% c("UNKNOWN", NA))
 
 ggplot(mydata3, aes(x = Light, y = Traffic.Control)) +
   geom_tile(aes(fill = (Frequency/Total)), color = "white") +
@@ -465,7 +498,13 @@ ggplot(mydata3, aes(x = Light, y = Traffic.Control)) +
   labs(title="Heatmap for Light and Traffic Control Conditions Under Different Injury Levels")
   
 ```
-```{r}
+The heatmap reveals that under all light conditions, and across all levels of injury, **the majority of car crashes occur either at traffic signals or in areas with no traffic control**. In situations of darkness with no lighting, crashes with no traffic control tend to form the highest proportion in each injury category. Additionally, we notice more diverse patterns between light and traffic control conditions in crashes with no apparent injuries. However, **as the severity of injuries increases, the range of traffic control conditions and light conditions involved narrows down**. Notably, for serious suspected injuries and fatalities, there are **no crashes reported at school zone signs, railway crossing devices, or near person crossing signs**. 
+
+### Chi-Square Test
+
+Finally, we conducted chi-square tests to explore the relationship between various independent variables and two key outcomes: injury severity and vehicle damage extent. We set a significance threshold at an alpha of 0.01, meaning we consider a relationship statistically significant if the p-value is less than 0.01.
+
+```{r, echo=FALSE}
 vehicle_damage_table_1 <- xtabs(~ Vehicle.Damage.Extent + Surface.Condition, data = data_q4_filtered)
 vehicle_damage_table_2 <- xtabs(~ Vehicle.Damage.Extent + Weather, data = data_q4_filtered)
 vehicle_damage_table_3 <- xtabs(~ Vehicle.Damage.Extent + Traffic.Control, data = data_q4_filtered)
@@ -490,12 +529,24 @@ injury_severity_table_5 <- xtabs(~ Injury.Severity + Speed.Limit, data = data_q4
 # summary(injury_severity_table_5)
 ```
 
-## Q5
-```{r}
-summary(data_q5)
-```
+| Dependent Variable | Independent Variable | P-value | Correlation? |
+|----------|----------|----------|----------|
+| Vehicle Damage Extent | Surface Condition | 5.03e-07 | Yes |
+|  | Weather | 7.296e-69 | Yes |
+|  | Traffic Control | 0 | Yes |
+|  | Light | 0 | Yes |
+|  | Speed Limit | 0 | Yes |
+| Injury Severity | Surface Condition | 2.459e-07 | Yes |
+|  | Weather | 2.105e-10 | Yes |
+|  | Traffic Control | 1.992e-108 | Yes |
+|  | Light | 8.079e-35 | Yes |
+|  | Speed Limit | 0 | Yes |
 
-```{r}
+## Vehicle Condition
+In this section, we aim to analysis the patterns between collision severity and key vehicular attributes, specifically, the age and size of the vehicles involved. 
+
+### Vehicle Age
+```{r, fig.width=8, fig.height=6, echo=FALSE}
 data_q5$Vehicle.Body.Type = as.factor(data_q5$Vehicle.Body.Type) |> 
   fct_explicit_na("NA")
 
@@ -527,10 +578,11 @@ data_q5$Vehicle.Damage.Extent = as.factor(data_q5$Vehicle.Damage.Extent) |>
   fct_explicit_na("NA") |> 
   fct_relevel("NO DAMAGE", "SUPERFICIAL", "FUNCTIONAL", "DISABLING",
               "DESTROYED","UNKNOWN", "OTHER", "NA")
-```
 
-```{r, fig.width=8, fig.height=8}
 # Vehicle.Year vs Vehicle.Damage.Extent
+data_q5 <- data_q5 |> 
+  filter(!Vehicle.Damage.Extent %in% c("UNKNOWN", "OTHER", "NA"))
+
 ggplot(data_q5, aes(Vehicle.Year, fct_rev(Vehicle.Damage.Extent))) +
   geom_boxplot(varwidth = TRUE) +
   geom_vline(xintercept = mean(data_q5$Vehicle.Year, na.rm = T),color = "red") +
@@ -538,8 +590,16 @@ ggplot(data_q5, aes(Vehicle.Year, fct_rev(Vehicle.Damage.Extent))) +
        y = "Vehicle Damage Extent", 
        title = "Boxplot of Vehicle Age by Vehicle Damage Extent") +
   xlim(0,30) +
-  theme_bw()
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
 
+```
+
+The boxplot shows us that the ages of vehicles across different categories of damage extent are **skewed to the right**, with all the medians situated to the left of the red line that represents the average age. We observe that compared to other groups, the median vehicle ages are lower in the no damage and superficial damage groups, which suggests that **younger vehicles tend to dominate the no damage and superficial damage groups**. While the majority of vehicles are in the functional and disabling damage groups, they also share similar age distributions, with medians close to the mean. However, **vehicles that are destroyed in crashes appear to have a wider spread of ages**, with a noticeable portion being older than the average vehicle age when compared to other categories.
+
+### Vehicle Size
+
+```{r, fig.width=8, fig.height=6, echo=FALSE}
 # Vehicle.Size vs Vehicle.Damage.Extent
 data_q5$crash = 1
 data = data_q5 |> 
@@ -555,7 +615,10 @@ ggplot(data, aes(Vehicle.Damage.Extent, total_crashes)) +
        y = "Number of Crashed",
        title = "Cleveland Dot Plot of Number of Crashes of Vehicle Damage Extent 
 for Different Vehicle Size") +
-  theme_bw()
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
 
 ```
+
+In this section, we're looking at a Cleveland dot plot to see if the size of a vehicle affects how much damage it gets in a crash. Here's what we found: **lighter cars are in more accidents than any other size**. Medium-sized, heavy, and vehicles of unknown or other sizes tend to have similar damage patterns, usually superficial damage. Interestingly, for lighter vehicles, as the damage gets worse, the number of accidents increases too. On the other hand, for larger vehicles, once they get past superficial damage, the number of accidents steadily decreases
 
