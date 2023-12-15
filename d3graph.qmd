@@ -12,27 +12,19 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>
 
-<h1>Traffic Collision Situation on Different Environmental Conditions</h1>
-<h4>"customize environment conditions and compare them!"</h4>
+<h1>Explore Different Environmental Factors on Car Crash Severity</h1>
+<h4>"Choose your environmental factor and severity measure and explore their relationship!"</h4>
 
 
 <h5>
 Steps:
 </h5>
 <p>
-1. Choose the type of environment condition you are interested in on Independent Variable dropdown button. (You can select from Weather, Speed Limit, Surface Condition, Light and Traffic Control)
-</p>
-<p>
-2. Choose the type of collision situation. (You can select from Injury Severity and Vehicle Damage Extent)
-</p>
-<p>
-3. Select the two levels of the environment condition you want to compare on level 1 and level 2.
-</p>
-<p>
-4. Hover over a bar to view detailed information about percentage of collision severity at that level.
-</p>
-<p>
-5. Choose other variables and levels of your interest to explore our results!
+1. Choose the type of environmental factor you are interested in using <span style="border: 1px solid blue; font-weight: bold;">Independent Variable</span> dropdown button. You can select from Weather, Speed Limit, Surface Condition, Light and Traffic Control. <br>
+2. Choose the type of car crash severity measure you are interested in using <span style="border: 1px solid blue; font-weight: bold;">Dependent Variable</span>. You can select from Injury Severity and Vehicle Damage Extent.<br>
+3. Select the two levels of the environmental factors you want to compare using <span style="border: 1px solid blue; font-weight: bold;">Chosen level 1</span> and <span style="border: 1px solid blue; font-weight: bold;">Chosen level 2</span>. <br>
+4. Hover over a bar to view detailed information about percentage of collision severity measure at that level. <br>
+5. Choose your combinations to explore our results for Q4: Environmental Factors!
 </p>
 
 
@@ -73,11 +65,7 @@ Steps:
 Remember: 
 </h5>
 <p>
- - The top graph refers to the distribution of the collision situation for environment condition level 1; the bottom graph refers to the distribution of the collision situation for environment condition level 2.
-</p>
-<p>
- - "Total Count" in top right corner is represent the total traffic collision in Montgomery County from 2015 to 2023.
-</p>
-<p>
- - Everytime you change the collision situation, re-select the levels you are interested. 
+ - The top graph refers to the distribution of the collision situation for environmental factor level 1; the bottom graph refers to the distribution of the collision situation for environmental factor level 2.<br>
+ - <span style="border: 1px solid blue; font-weight: bold;">Total Count</span> in top right corner is represent the total traffic collision in Montgomery County from 2015 to 2023. <br>
+ - Everytime you change the environmental factor, re-select the levels you are interested. 
 </p>
